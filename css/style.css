@@ -64,9 +64,10 @@ h1 .thin{color:var(--muted);font-weight:500}
 .sld text{font-family:'IBM Plex Mono',monospace}
 
 /* ===== SECTIONS ===== */
-section{padding:58px 0 6px}
-.sec-head{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:8px}
-.sec-no{font-family:'IBM Plex Mono';font-size:12px;color:var(--kuning);letter-spacing:.14em}
+section{position:relative;padding:76px 0 6px}
+section::before{content:'';position:absolute;top:34px;left:22px;right:22px;border-top:2px solid var(--line2)}
+.sec-head{display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:8px}
+.sec-no{font-family:'IBM Plex Mono';font-size:12px;font-weight:500;color:#10233F;background:var(--kuning-raw);letter-spacing:.14em;padding:4px 12px;border-radius:999px;flex:none}
 h2{font-size:24px;font-weight:600}
 .sec-desc{color:var(--muted);max-width:820px;margin:12px 0 22px}
 .badge-upd{display:inline-block;font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.1em;color:var(--hijau);border:1px solid var(--hijau);border-radius:999px;padding:2px 10px;margin-left:8px;vertical-align:3px}
@@ -261,4 +262,6 @@ tr.kgrp td{background:var(--biru-soft);font-weight:600}
   .leaflet-control-zoom{display:none}
   a{text-decoration:none;color:inherit}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  section:not(.no-print){break-before:page}   /* tiap bab mulai di halaman baru */
+  section::before{display:none}
 }

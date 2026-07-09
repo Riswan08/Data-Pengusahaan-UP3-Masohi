@@ -267,7 +267,17 @@ document.querySelector('.pm-presets').addEventListener('click', e=>{
   });
   pmSync();
 });
-const pmOpen = ()=>printModal.classList.add('open');
+/* Pembersihan kelas .no-print HANYA setelah dialog cetak benar-benar ditutup
+   (afterprint). Di ponsel, window.print() tidak menunggu — membersihkan lebih
+   awal membuat semua bab ikut tercetak. */
+function pmBersih(){
+  printSections.forEach(s=>{
+    const el = document.getElementById(s.id);
+    if(el) el.classList.remove('no-print');
+  });
+}
+window.addEventListener('afterprint', pmBersih);
+const pmOpen = ()=>{ pmBersih(); printModal.classList.add('open'); };
 const pmClose = ()=>printModal.classList.remove('open');
 document.getElementById('printBtn').onclick = pmOpen;
 document.getElementById('pmBatal').onclick = pmClose;
@@ -282,13 +292,7 @@ pmGo.onclick = ()=>{
     if(el) el.classList.toggle('no-print', !pilih.has(s.id));
   });
   pmClose();
-  setTimeout(()=>{
-    window.print();
-    printSections.forEach(s=>{
-      const el = document.getElementById(s.id);
-      if(el) el.classList.remove('no-print');
-    });
-  }, 80);
+  setTimeout(()=>window.print(), 120);
 };
 
 /* ================= KEMBALI KE ATAS ================= */
