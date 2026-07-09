@@ -55,6 +55,10 @@ Pengusahaan/
 4. Klik **✓ Terapkan ke data** → periksa ringkasan → **⬇ Unduh data.js** → ganti
    file `js/data.js`.
 
+> **Tips:** jika setelah mengganti `data.js` tampilan profil belum berubah,
+> lakukan *hard refresh* di browser (Mac: `Cmd+Shift+R`, Windows: `Ctrl+Shift+R`)
+> agar file lama yang tersimpan di cache browser dibuang.
+
 ### Cara manual: sunting di halaman admin
 
 1. Buka **halaman admin** (`admin/index.html`).
