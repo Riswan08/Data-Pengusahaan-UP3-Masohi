@@ -30,7 +30,7 @@ Pengusahaan/
 │   ├── app.js        Logika bab 01–08 (tema, peta, grafik, tabel)
 │   └── dashboard.js  Logika bab 09 (dashboard kinerja per unit, gauge)
 ├── img/              Foto pegawai struktur organisasi
-├── vendor/           Chart.js & Leaflet (lokal, untuk offline)
+├── vendor/           Chart.js, Leaflet & SheetJS (lokal, untuk offline)
 ├── admin/index.html  Halaman admin: editor data bulanan
 └── Profil_Pengusahaan_UP3_Masohi_2026_1.html   Arsip file asli (backup)
 ```
@@ -43,8 +43,11 @@ Pengusahaan/
 2. Pilih bagian yang mau diperbarui: **Semua bagian**, **Kinerja bulanan** (NKO & KPI),
    **Data pelanggan** (neraca), atau **Sistem kelistrikan**.
 3. Pilih file: `data.js`/JSON (hasil unduhan halaman ini) untuk semua bagian, atau
-   **CSV dari Excel** untuk Kinerja/Pelanggan/Sistem — unduh dulu **template CSV**
-   agar nama kolom sesuai (pemisah `;` atau `,`, desimal koma didukung).
+   **Excel (.xlsx)** / CSV untuk Kinerja/Pelanggan/Sistem — unduh dulu **template
+   Excel** yang sudah terisi data saat ini, sunting di Excel, lalu unggah kembali.
+   Jika workbook berisi beberapa sheet, sheet yang namanya cocok dengan bagian
+   (mis. "KPI", "Pelanggan", "Sistem") dipilih otomatis; selain itu dipakai sheet
+   pertama. CSV tetap didukung (pemisah `;` atau `,`, desimal koma).
    Untuk kinerja tersedia dua template:
    - **NKO bulanan** — baris = unit, kolom = bulan; kolom bulan baru (mis. `Jun`)
      otomatis memperpanjang seluruh struktur data.
