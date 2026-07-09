@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profil Pengusahaan — UP3 Masohi · Mei 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+<script src="vendor/chart.umd.min.js"></script>
+<link rel="stylesheet" href="vendor/leaflet.min.css">
+<script src="vendor/leaflet.min.js"></script>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <button id="sbToggle" title="Buka/tutup menu samping">☰ MENU</button>
+    <div class="nav-brand"><em>⚡</em> PROFIL PENGUSAHAAN · UP3 MASOHI</div>
+    <div style="flex:1"></div>
+    <button id="printBtn" title="Cetak / simpan sebagai PDF">⎙ CETAK</button>
+    <button id="themeBtn">☾ GELAP</button>
+  </div>
+</nav>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sb-brand" style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+    <span><em>⚡</em> UP3 MASOHI · 2026</span>
+    <button id="sbToggleIn" title="Sembunyikan menu samping">☰ MENU</button>
+  </div>
+  <button class="sb-group-btn" id="sbProfilBtn"><span class="sb-group" style="padding:0">Profil pengusahaan</span><span class="sb-caret open" id="sbProfilCaret">▾</span></button>
+  <div class="sb-sub open" id="sbSubProfil" style="margin-left:6px;padding-left:4px;border-left:none">
+    <a class="sb-item" href="#s1">01 · Identitas unit</a>
+    <a class="sb-item" href="#s3">02 · Organisasi &amp; SDM</a>
+    <a class="sb-item" href="#s2">03 · Wilayah &amp; elektrifikasi</a>
+    <a class="sb-item" href="#s4">04 · Data pengusahaan</a>
+    <a class="sb-item" href="#s5">05 · Neraca pelanggan</a>
+    <a class="sb-item" href="#s6">06 · Aset jaringan</a>
+    <a class="sb-item" href="#s7">07 · Kelistrikan</a>
+    <a class="sb-item" href="#s8">08 · Kinerja Jan–Mei</a>
+  </div>
+  <button class="sb-group-btn" id="sbKinerjaBtn"><span class="sb-group" style="padding:0">Kinerja UP3 Masohi 2026</span><span class="sb-caret open" id="sbKinerjaCaret">▾</span></button>
+  <div class="sb-sub open" id="sbSubKinerja" style="margin-left:6px;padding-left:4px;border-left:none">
+    <div id="sbUnits"></div>
+  </div>
+</aside>
+
+<header class="wrap" id="s1">
+  <div class="doc-line">
+    <span>PT PLN (PERSERO) · UIW MALUKU &amp; MALUKU UTARA</span>
+    <span id="docPos">POSISI DATA · MEI 2026</span>
+  </div>
+  <div class="eyebrow">Profil pengusahaan unit</div>
+  <h1>UP3 Masohi <span class="thin">· profil pengusahaan &amp; kelistrikan Pulau Seram</span></h1>
+  <p class="lede">Dokumen profil terpadu yang menggabungkan data pengusahaan, wilayah kerja, neraca pelanggan, aset jaringan distribusi, sistem pembangkitan, dan realisasi kinerja UP3 Masohi beserta 5 ULP — dikonsolidasikan dari memori serah terima jabatan Juni 2026 dan dashboard kinerja multi-unit 2026.</p>
+  <div class="hero-tags">
+    <span class="tag">Wilayah <b>3 kabupaten · P. Seram</b></span>
+    <span class="tag">Unit <b>5 ULP · 26 KP</b></span>
+    <span class="tag">Pegawai <b>102 orang</b></span>
+    <span class="tag">NKO Mei <b>107,09 / 110</b></span>
+  </div>
+
+  <div class="sld">
+    <div class="sld-title">Diagram satu garis pengusahaan · posisi Mei 2026</div>
+    <svg viewBox="0 0 1200 216" role="img" aria-label="Diagram satu garis: pembangkit, JTM 20 kV, gardu distribusi, JTR 220/380 V, pelanggan">
+      <defs>
+        <style>
+          .ic{fill:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+          .lt{font-size:13.5px;font-weight:700;letter-spacing:.03em;fill:var(--ink);font-family:'Sora',sans-serif}
+          .lv{font-size:14.5px;font-weight:700;fill:var(--ink);font-family:'Sora',sans-serif}
+          .ls{font-size:11.5px;fill:var(--muted)}
+        </style>
+      </defs>
+
+      <!-- garis penghubung -->
+      <g stroke-linecap="round">
+        <line x1="158" y1="92" x2="316" y2="92" stroke="#F5B800" stroke-width="7"/>
+        <circle cx="158" cy="92" r="6.5" fill="#F5B800"/><circle cx="316" cy="92" r="6.5" fill="#F5B800"/>
+        <line x1="418" y1="92" x2="548" y2="92" stroke="#3B78D8" stroke-width="7"/>
+        <circle cx="418" cy="92" r="6.5" fill="#3B78D8"/><circle cx="548" cy="92" r="6.5" fill="#3B78D8"/>
+        <line x1="652" y1="92" x2="782" y2="92" stroke="#3B78D8" stroke-width="7"/>
+        <circle cx="652" cy="92" r="6.5" fill="#3B78D8"/><circle cx="782" cy="92" r="6.5" fill="#3B78D8"/>
+        <line x1="884" y1="92" x2="1042" y2="92" stroke="#34B25E" stroke-width="7"/>
+        <circle cx="884" cy="92" r="6.5" fill="#34B25E"/><circle cx="1042" cy="92" r="6.5" fill="#34B25E"/>
+      </g>
+
+      <!-- NODE 1 · PEMBANGKIT -->
+      <circle cx="112" cy="92" r="46" fill="var(--card)" stroke="#F5B800" stroke-width="5"/>
+      <g class="ic" stroke="#E8A700">
+        <path d="M94,116 v-42 h11 v42"/>
+        <path d="M96,66 q-5,-6 1,-10 M104,66 q6,-6 0,-11"/>
+        <path d="M105,116 v-20 l12,9 v-9 l12,9 v-9 l10,8 v12 z"/>
+      </g>
+      <polygon points="119,93 126,93 121,104 131,91 124,91 129,81" fill="#E8A700"/>
+      <text x="112" y="160" text-anchor="middle" class="lt">PEMBANGKIT</text>
+      <text x="112" y="180" text-anchor="middle" class="lv">116 SPD PLN · 54 sewa</text>
+      <text x="112" y="198" text-anchor="middle" class="ls">DP 98,13 · DM 71,73 MW</text>
+
+      <!-- NODE 2 · JTM -->
+      <rect x="326" y="52" width="82" height="80" rx="17" fill="var(--card)" stroke="#3B78D8" stroke-width="5"/>
+      <g class="ic" stroke="#2456A6" stroke-width="3.4">
+        <path d="M367,62 L352,122 M367,62 L382,122"/>
+        <path d="M356,106 h22 M359,92 h16"/>
+        <path d="M359,92 l16,14 M375,92 l-16,14"/>
+        <path d="M345,76 h44 M352,76 l5,7 M382,76 l-5,7"/>
+        <path d="M350,122 h34"/>
+      </g>
+      <text x="367" y="32" text-anchor="middle" class="lt">JTM 20 kV</text>
+      <text x="367" y="160" text-anchor="middle" class="lv">1.792,95 kms</text>
+      <text x="367" y="178" text-anchor="middle" class="ls">SUTM 1.787,77 · SKTM 5,18</text>
+
+      <!-- NODE 3 · GARDU DISTRIBUSI -->
+      <circle cx="600" cy="92" r="46" fill="var(--card)" stroke="#3B78D8" stroke-width="5"/>
+      <g class="ic" stroke="#2456A6" stroke-width="3.4">
+        <rect x="576" y="84" width="21" height="29" rx="2.5"/>
+        <path d="M581,84 v-7 M592,84 v-7"/>
+        <circle cx="581" cy="74.5" r="2.2"/><circle cx="592" cy="74.5" r="2.2"/>
+        <path d="M581.5,89 v19 M586.5,89 v19 M591.5,89 v19"/>
+        <rect x="603" y="84" width="21" height="29" rx="2.5"/>
+        <path d="M608,84 v-7 M619,84 v-7"/>
+        <circle cx="608" cy="74.5" r="2.2"/><circle cx="619" cy="74.5" r="2.2"/>
+        <path d="M608.5,89 v19 M613.5,89 v19 M618.5,89 v19"/>
+      </g>
+      <text x="600" y="32" text-anchor="middle" class="lt">GARDU DISTRIBUSI</text>
+      <text x="600" y="160" text-anchor="middle" class="lv">973 unit · 71.416 kVA</text>
+      <text x="600" y="178" text-anchor="middle" class="ls">+ 6 gardu hubung</text>
+
+      <!-- NODE 4 · JTR -->
+      <rect x="792" y="52" width="82" height="80" rx="17" fill="var(--card)" stroke="#3B78D8" stroke-width="5"/>
+      <g class="ic" stroke="#2456A6" stroke-width="3.4">
+        <path d="M833,66 v56"/>
+        <path d="M811,73 h44"/>
+        <path d="M815,73 v6 M833,73 v6 M851,73 v6"/>
+        <circle cx="815" cy="81" r="2"/><circle cx="833" cy="81" r="2"/><circle cx="851" cy="81" r="2"/>
+        <path d="M833,88 l-13,-10 M833,88 l13,-10"/>
+        <path d="M826,122 h14"/>
+      </g>
+      <text x="833" y="32" text-anchor="middle" class="lt">JTR 220/380 V</text>
+      <text x="833" y="160" text-anchor="middle" class="lv">1.006,53 kms</text>
+
+      <!-- NODE 5 · PELANGGAN -->
+      <circle cx="1088" cy="92" r="46" fill="var(--card)" stroke="#34B25E" stroke-width="5"/>
+      <g class="ic" stroke="#1E8E5A">
+        <path d="M1066,92 l18,-17 l18,17"/>
+        <path d="M1070,90 v25 h28 v-25"/>
+        <rect x="1079" y="102" width="10" height="13"/>
+        <rect x="1073" y="94" width="6" height="6"/>
+      </g>
+      <circle cx="1108" cy="104" r="6.5" fill="none" stroke="#1E8E5A" stroke-width="3.4"/>
+      <path d="M1108,110 v7" stroke="#1E8E5A" stroke-width="3.4" stroke-linecap="round"/>
+      <text x="1088" y="160" text-anchor="middle" class="lt">PELANGGAN</text>
+      <text x="1088" y="180" text-anchor="middle" class="lv">134.027 plg · 156,26 MVA</text>
+      <text x="1088" y="198" text-anchor="middle" class="ls">jual Mei 18,37 GWh</text>
+    </svg>
+  </div>
+</header>
+
+<!-- ================= 02 ORGANISASI ================= -->
+<section class="wrap" id="s3">
+  <div class="sec-head"><span class="sec-no">02</span><h2>Organisasi &amp; SDM</h2></div>
+  <p class="sec-desc">Manager UP3 dibantu lima assistant manager dan dua team leader di kantor induk, serta lima manager ULP di lapangan. Total 102 pegawai — 38 di kantor induk UP3 dan 64 tersebar di 5 ULP.</p>
+
+  <div class="relay">
+    <div class="official now">
+      <img class="ava" src="img/ava-01-a4319545.jpg" alt="Foto I Made Indra Wijaya" loading="lazy">
+      <div class="role">Manager UP3 Masohi</div>
+      <div class="nm">I Made Indra Wijaya</div>
+    </div>
+  </div>
+
+  <h3 class="blok">Assistant manager (Asman) &amp; team leader (TL) — kantor induk</h3>
+  <div class="org-grid">
+    <div class="org-node"><img class="ava" src="img/ava-02-f0562d92.png" alt="Foto Fuad Ardiansyah" loading="lazy"><div class="role">Asman REN</div><div class="nm">Fuad Ardiansyah</div></div>
+    <div class="org-node"><img class="ava" src="img/ava-03-b58e99a5.png" alt="Foto Niarritssa Latupeirissa" loading="lazy"><div class="role">Asman TEL</div><div class="nm">Niarritssa Latupeirissa</div></div>
+    <div class="org-node"><img class="ava" src="img/ava-04-6170642e.png" alt="Foto Adam Jumati" loading="lazy"><div class="role">Asman JARKONS</div><div class="nm">Adam Jumati</div></div>
+    <div class="org-node"><img class="ava" src="img/ava-05-d5ad04f0.png" alt="Foto Abdulah Ahmad" loading="lazy"><div class="role">Asman KU</div><div class="nm">Abdulah Ahmad</div></div>
+    <div class="org-node"><img class="ava" src="img/ava-06-40b97fc8.png" alt="Foto Dwiono Parasdyo" loading="lazy"><div class="role">Asman NPS</div><div class="nm">Dwiono Parasdyo</div></div>
+    <div class="org-node"><img class="ava" src="img/ava-07-fcf208b5.png" alt="Foto Indra Nunumete" loading="lazy"><div class="role">TL LAK DAN</div><div class="nm">Indra Nunumete</div></div>
+    <div class="org-node"><img class="ava" src="img/ava-08-67c740e0.png" alt="Foto Farhan Canta Gumira" loading="lazy"><div class="role">TL K3L</div><div class="nm">Farhan Canta Gumira</div></div>
+  </div>
+
+  <h3 class="blok">Manager unit layanan pelanggan (MULP)</h3>
+  <div class="org-grid">
+    <div class="org-node ulp"><img class="ava" src="img/ava-09-9cb77a3c.png" alt="Foto Ridwan Ambon" loading="lazy"><div class="role">MULP Masohi</div><div class="nm">Ridwan Ambon</div></div>
+    <div class="org-node ulp"><img class="ava" src="img/ava-10-82d21d0a.png" alt="Foto Jhonfried Freedolyn Tuasela" loading="lazy"><div class="role">MULP Kairatu</div><div class="nm">Jhonfried Freedolyn Tuasela</div></div>
+    <div class="org-node ulp"><img class="ava" src="img/ava-11-1c4649ec.png" alt="Foto Achmad Suyudi" loading="lazy"><div class="role">MULP Piru</div><div class="nm">Achmad Suyudi</div></div>
+    <div class="org-node ulp"><img class="ava" src="img/ava-12-0260a136.png" alt="Foto Alif Saputra" loading="lazy"><div class="role">MULP Kobisonta</div><div class="nm">Alif Saputra</div></div>
+    <div class="org-node ulp"><img class="ava" src="img/ava-13-91eb8f45.png" alt="Foto Rusli Hardianto Akbar" loading="lazy"><div class="role">MULP Bula</div><div class="nm">Rusli Hardianto Akbar</div></div>
+  </div>
+
+  <div class="grid g2" style="margin-top:22px">
+    <div class="tbl-wrap" style="margin:0">
+      <div class="tbl-head"><h3>Rekap pegawai per unit</h3></div>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>Unit</th><th class="num">Pegawai</th></tr></thead>
+        <tbody>
+          <tr><td>UP3 Masohi (kantor induk)</td><td class="num">38</td></tr>
+          <tr><td>ULP Masohi</td><td class="num">15</td></tr>
+          <tr><td>ULP Bula</td><td class="num">15</td></tr>
+          <tr><td>ULP Kairatu</td><td class="num">12</td></tr>
+          <tr><td>ULP Kobisonta</td><td class="num">12</td></tr>
+          <tr><td>ULP Piru</td><td class="num">10</td></tr>
+          <tr class="total"><td>Total keseluruhan</td><td class="num">102</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div class="chart-card" style="margin:0"><h3>Komposisi pegawai</h3><div class="ch sm"><canvas id="chPeg"></canvas></div></div>
+  </div>
+</section>
+
+<!-- ================= 03 WILAYAH ================= -->
+<section class="wrap" id="s2">
+  <div class="sec-head"><span class="sec-no">03</span><h2>Wilayah kerja &amp; elektrifikasi <span class="badge-upd" data-meta="posisi">DATA MEI 2026</span></h2></div>
+  <p class="sec-desc">UP3 Masohi melayani seluruh Pulau Seram yang mencakup tiga kabupaten — Maluku Tengah, Seram Bagian Barat, dan Seram Bagian Timur — melalui 5 ULP dan 26 kantor layanan. Gunakan tombol lapisan peta untuk berpindah antara sebaran unit dan sistem pembangkitan.</p>
+
+  <div class="grid g4">
+    <div class="card acc"><div class="lbl">Unit layanan pelanggan</div><div class="val">5<small>ULP</small></div><div class="sub">Masohi · Kairatu · Piru · Kobisonta · Bula</div></div>
+    <div class="card acc"><div class="lbl">Kantor layanan</div><div class="val">26<small>KP</small></div><div class="sub">tersebar di 3 kabupaten</div></div>
+    <div class="card acc green"><div class="lbl">Desa berlistrik PLN</div><div class="val">471<small>/ 482</small></div><span class="delta d-up">Rasio desa berlistrik 98%</span></div>
+    <div class="card acc green"><div class="lbl">Rasio elektrifikasi PLN</div><div class="val">98<small>%</small></div><div class="sub">posisi s.d. Mei 2026</div></div>
+  </div>
+
+  <div class="chart-card">
+    <div class="tbl-head" style="padding:0 0 12px">
+      <h3>Peta Pulau Seram — wilayah kerja UP3 Masohi</h3>
+      <div class="seg" id="segMap">
+        <button class="on" data-lay="unit">UNIT (ULP &amp; KP)</button>
+        <button data-lay="sistem">SISTEM KELISTRIKAN</button>
+      </div>
+    </div>
+    <div id="peta"></div>
+    <div class="legend" id="mapLegend"></div>
+    <div class="map-note">© OpenStreetMap · koordinat sesuai data unit · klik titik untuk detail</div>
+  </div>
+
+  <div class="grid g2">
+    <div class="tbl-wrap" style="margin:0">
+      <div class="tbl-head"><h3>Cakupan desa per kabupaten</h3></div>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>Kabupaten</th><th class="num">Desa</th><th class="num">PLN</th><th class="num">Belum</th><th class="num">LTSHE</th></tr></thead>
+        <tbody>
+          <tr><td>Maluku Tengah</td><td class="num">192</td><td class="num">189</td><td class="num">0</td><td class="num">3</td></tr>
+          <tr><td>Seram Bagian Barat</td><td class="num">92</td><td class="num">90</td><td class="num">2</td><td class="num">0</td></tr>
+          <tr><td>Seram Bagian Timur</td><td class="num">198</td><td class="num">192</td><td class="num">4</td><td class="num">2</td></tr>
+          <tr class="total"><td>Total</td><td class="num">482</td><td class="num">471</td><td class="num">6</td><td class="num">5</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div class="tbl-wrap" style="margin:0">
+      <div class="tbl-head"><h3>Desa belum berlistrik &amp; LTSHE · 11 desa</h3></div>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>Kabupaten</th><th>Kecamatan</th><th>Desa</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Seram Bag. Timur</td><td>Werinama</td><td>Gusalaut</td><td><span class="pill p-bad">Belum berlistrik</span></td></tr>
+          <tr><td>Seram Bag. Timur</td><td>Werinama</td><td>Tum</td><td><span class="pill p-bad">Belum berlistrik</span></td></tr>
+          <tr><td>Seram Bag. Timur</td><td>Kilmury</td><td>Undur</td><td><span class="pill p-bad">Belum berlistrik</span></td></tr>
+          <tr><td>Seram Bag. Timur</td><td>Kilmury</td><td>Taa</td><td><span class="pill p-bad">Belum berlistrik</span></td></tr>
+          <tr><td>Seram Bag. Barat</td><td>Elpaputih</td><td>Watui</td><td><span class="pill p-bad">Belum berlistrik</span></td></tr>
+          <tr><td>Seram Bag. Barat</td><td>Elpaputih</td><td>Huku Kecil</td><td><span class="pill p-bad">Belum berlistrik</span></td></tr>
+          <tr><td>Maluku Tengah</td><td>Seram Utara</td><td>Elemata</td><td><span class="pill p-warn">LTSHE</span></td></tr>
+          <tr><td>Maluku Tengah</td><td>Seram Utara</td><td>Maraina</td><td><span class="pill p-warn">LTSHE</span></td></tr>
+          <tr><td>Maluku Tengah</td><td>Seram Utara</td><td>Hatuolo</td><td><span class="pill p-warn">LTSHE</span></td></tr>
+          <tr><td>Seram Bag. Timur</td><td>Teluk Waru</td><td>Nama Lena</td><td><span class="pill p-warn">LTSHE</span></td></tr>
+          <tr><td>Seram Bag. Timur</td><td>Teluk Waru</td><td>Nama Andan</td><td><span class="pill p-warn">LTSHE</span></td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 04 DATA PENGUSAHAAN ================= -->
+<section class="wrap" id="s4">
+  <div class="sec-head"><span class="sec-no">04</span><h2>Data pengusahaan pokok <span class="badge-upd" data-meta="posisi">DATA MEI 2026</span></h2></div>
+  <p class="sec-desc">Indikator pengusahaan utama UP3 Masohi posisi s.d. Mei 2026 — sisi niaga, jaringan distribusi, dan pembangkitan.</p>
+
+  <h3 class="blok">Niaga &amp; pelanggan</h3>
+  <div class="grid g4">
+    <div class="card blue"><div class="lbl">Jumlah pelanggan</div><div class="val" id="vPlg">—</div><div class="sub">31 unit (5 ULP + 26 KP)</div></div>
+    <div class="card blue"><div class="lbl">Daya tersambung</div><div class="val" id="vDaya">—</div><div class="sub" id="vDayaVa">—</div></div>
+    <div class="card blue"><div class="lbl">kWh penjualan kumulatif</div><div class="val">26,87<small>GWh</small></div><span class="delta d-up">capai 110 vs target</span></div>
+    <div class="card blue"><div class="lbl">Pendapatan BP</div><div class="val">Rp 5,41<small>M</small></div><span class="delta d-info">capaian 99,40% (Mei)</span></div>
+  </div>
+
+  <h3 class="blok">Jaringan distribusi</h3>
+  <div class="grid g4">
+    <div class="card"><div class="lbl">JTM</div><div class="val">1.792,95<small>kms</small></div><div class="sub">SUTM 1.787,77 · SKTM 5,18</div></div>
+    <div class="card"><div class="lbl">JTR</div><div class="val">1.006,53<small>kms</small></div><div class="sub">jumlah resmi UP3</div></div>
+    <div class="card"><div class="lbl">Gardu distribusi</div><div class="val">973<small>unit</small></div><div class="sub">71.416 kVA · 6 gardu hubung</div></div>
+    <div class="card"><div class="lbl">Rasio elektrifikasi</div><div class="val">98<small>%</small></div><div class="sub">desa berlistrik PLN 471/482</div></div>
+  </div>
+
+  <h3 class="blok">Pembangkitan <span class="badge-upd" style="vertical-align:1px" data-meta="monitoring">MONITORING 5 JULI 2026</span></h3>
+  <div class="grid g4">
+    <div class="card amber"><div class="lbl">Daya terpasang</div><div class="val">98,13<small>MW</small></div><div class="sub">SPD PLN 116 · SPD sewa 54 unit</div></div>
+    <div class="card amber"><div class="lbl">Daya mampu</div><div class="val">71,73<small>MW</small></div><div class="sub">26 sistem kelistrikan</div></div>
+    <div class="card amber"><div class="lbl">Beban puncak</div><div class="val">33,09<small>MW</small></div><div class="sub">malam · 5 Juli 2026</div></div>
+    <div class="card green"><div class="lbl">Cadangan daya</div><div class="val">38,64<small>MW</small></div><span class="delta d-up">reserve margin sehat · 0 siaga</span></div>
+  </div>
+</section>
+
+<!-- ================= 05 NERACA ================= -->
+<section class="wrap" id="s5">
+  <div class="sec-head"><span class="sec-no">05</span><h2>Neraca pelanggan &amp; penjualan <span class="badge-upd" data-meta="posisi">DATA MEI 2026</span></h2></div>
+  <p class="sec-desc">Sebaran pelanggan, daya tersambung, dan penjualan bulanan (Mei) per ULP induk dan kantor pelayanan. Total dihitung otomatis dari rincian 31 unit; agregat per wilayah ULP mengikuti pemetaan induk masing-masing KP.</p>
+
+  <div class="grid g4" id="neracaCards"></div>
+
+  <div class="grid g2" style="margin-top:14px">
+    <div class="chart-card" style="margin:0"><h3>Pelanggan per wilayah ULP</h3><div class="ch sm"><canvas id="chNerPlg"></canvas></div></div>
+    <div class="chart-card" style="margin:0"><h3>Penjualan Mei per wilayah ULP (GWh)</h3><div class="ch sm"><canvas id="chNerKwh"></canvas></div></div>
+  </div>
+
+  <div class="tbl-wrap">
+    <div class="tbl-head">
+      <h3>Rincian per unit · <span id="cntNer" class="mono" style="color:var(--faint)"></span></h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <div class="seg" id="segNer">
+          <button class="on" data-f="semua">SEMUA</button>
+          <button data-f="ULP">ULP INDUK</button>
+          <button data-f="KP">KANTOR PELAYANAN</button>
+        </div>
+        <input class="search" id="cariNer" placeholder="cari unit…">
+      </div>
+    </div>
+    <div class="tbl-scroll"><table id="tblNer">
+      <thead><tr><th>Unit</th><th>Jenis</th><th>Wilayah ULP</th><th class="num">Pelanggan</th><th class="num">Daya (VA)</th><th class="num">Penjualan (kWh)</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <div class="tbl-note">Penjualan pada tabel adalah realisasi bulanan posisi Mei 2026; kWh penjualan kumulatif Jan–Mei UP3 sebesar 26,87 GWh.</div>
+  </div>
+</section>
+
+<!-- ================= 06 ASET JARINGAN ================= -->
+<section class="wrap" id="s6">
+  <div class="sec-head"><span class="sec-no">06</span><h2>Aset jaringan distribusi per ULP <span class="badge-upd" data-meta="posisi">DATA MEI 2026</span></h2></div>
+  <p class="sec-desc">Rekap aset JTM, JTR, dan gardu distribusi per ULP. Subtotal JTR per ULP dijumlah menghasilkan 1.009,67 kms; total resmi UP3 1.006,53 kms (selisih ±3 km akibat pembulatan pada sumber).</p>
+
+  <div class="grid g2">
+    <div class="tbl-wrap" style="margin:0">
+      <div class="tbl-head"><h3>Aset jaringan per ULP</h3></div>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>ULP</th><th class="num">KP</th><th class="num">JTM (kms)</th><th class="num">JTR (kms)</th><th class="num">Gardu</th><th class="num">Daya (kVA)</th></tr></thead>
+        <tbody>
+          <tr><td>Masohi</td><td class="num">5</td><td class="num">454,11</td><td class="num">327,73</td><td class="num">292</td><td class="num">22.927</td></tr>
+          <tr><td>Bula</td><td class="num">13</td><td class="num">411,36</td><td class="num">186,00</td><td class="num">230</td><td class="num">16.240</td></tr>
+          <tr><td>Piru</td><td class="num">3</td><td class="num">384,19</td><td class="num">179,79</td><td class="num">203</td><td class="num">13.540</td></tr>
+          <tr><td>Kairatu</td><td class="num">3</td><td class="num">273,72</td><td class="num">137,66</td><td class="num">126</td><td class="num">10.301</td></tr>
+          <tr><td>Kobisonta</td><td class="num">2</td><td class="num">269,58</td><td class="num">178,49</td><td class="num">122</td><td class="num">8.408</td></tr>
+          <tr class="total"><td>Total UP3 Masohi</td><td class="num">26</td><td class="num">1.792,95</td><td class="num">1.006,53</td><td class="num">973</td><td class="num">71.416</td></tr>
+        </tbody>
+      </table></div>
+      <div class="tbl-note">JTM mencakup SUTM 1.787,77 kms dan SKTM 5,18 kms; dilengkapi 6 gardu hubung. KP Waipia disuplai dari sistem Masohi (tanpa aset JTM terpisah).</div>
+    </div>
+    <div class="chart-card" style="margin:0"><h3>Panjang jaringan per ULP (kms)</h3><div class="ch"><canvas id="chAset"></canvas></div></div>
+  </div>
+</section>
+
+<!-- ================= 07 KELISTRIKAN ================= -->
+<section class="wrap" id="s7">
+  <div class="sec-head"><span class="sec-no">07</span><h2>Sistem pembangkitan &amp; kondisi kelistrikan <span class="badge-upd" data-meta="monitoring">MONITORING 5 JULI 2026</span></h2></div>
+  <p class="sec-desc">UP3 Masohi melayani 26 sistem kelistrikan terpisah — 25 sistem beroperasi 24 jam, tersisa sistem Kilmury yang masih 12 jam. Berdasarkan monitoring beban puncak malam 5 Juli 2026, <b>seluruh 26 sistem berstatus normal/aman</b> — tidak ada sistem defisit maupun siaga. Sistem Kobisonta/Maluku Tengah yang sebelumnya siaga kini aman (cadangan 0,98 MW); pembebanan tertinggi ada di sistem Kairatu/Seram Bagian Barat (±88%, cadangan 0,54 MW).</p>
+
+  <div class="grid g4">
+    <div class="card"><div class="lbl">Sistem kelistrikan</div><div class="val">26</div><div class="sub">25 sistem 24 jam · 1 sistem 12 jam</div></div>
+    <div class="card green"><div class="lbl">Status normal / aman</div><div class="val">26</div><div class="sub">seluruh sistem · cadangan memadai</div></div>
+    <div class="card green"><div class="lbl">Status siaga / defisit</div><div class="val">0</div><div class="sub">tidak ada · per 5 Juli 2026</div></div>
+    <div class="card amber"><div class="lbl">Belum 24 jam</div><div class="val">1</div><div class="sub">sistem Kilmury (12 jam)</div></div>
+  </div>
+
+  <div class="tbl-wrap">
+    <div class="tbl-head">
+      <h3>Kondisi per sistem kelistrikan · <span id="cntSis" class="mono" style="color:var(--faint)"></span></h3>
+      <div class="seg" id="segSis">
+        <button class="on" data-f="semua">SEMUA</button>
+        <button data-f="Aman">AMAN</button>
+        <button data-f="Siaga">SIAGA</button>
+      </div>
+    </div>
+    <div class="tbl-scroll"><table id="tblSis">
+      <thead><tr><th>Sistem</th><th>Status</th><th class="num">Operasi</th><th class="num">DP (MW)</th><th class="num">DM (MW)</th><th class="num">BP (MW)</th><th class="num">CAD (MW)</th><th class="num">Beban</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <div class="tbl-note">DP = daya terpasang · DM = daya mampu · BP = beban puncak · CAD = cadangan. Beban = BP/DM. Sumber: monitoring beban puncak malam sistem UP3 Masohi, 5 Juli 2026.</div>
+  </div>
+</section>
+
+<!-- ================= 08 KINERJA ================= -->
+<section class="wrap" id="s8">
+  <div class="sec-head"><span class="sec-no">08</span><h2>Realisasi kinerja Januari–Mei 2026</h2></div>
+  <p class="sec-desc">UP3 Masohi menutup Mei 2026 dengan NKO 107,09 (skala nilai 110) — tertinggi sepanjang tahun berjalan, naik 3,41 poin dari April. ULP Kobisonta memimpin (109,74); ULP Masohi terendah (97,80) meski naik 13,4 poin sejak Januari. Klik nama unit pada legenda untuk menampilkan atau menyembunyikan garis.</p>
+
+  <div class="grid g4">
+    <div class="card acc amber"><div class="lbl">NKO UP3 · Mei</div><div class="val">107,09</div><span class="delta d-up">▲ 3,41 dari April (103,68)</span></div>
+    <div class="card acc green"><div class="lbl">SAIDI kumulatif</div><div class="val">52,05<small>mnt/plg</small></div><div class="sub">target ≤ 62,26</div></div>
+    <div class="card acc green"><div class="lbl">SAIFI kumulatif</div><div class="val">1,03<small>kali/plg</small></div><div class="sub">target ≤ 1,20</div></div>
+    <div class="card acc green"><div class="lbl">Susut distribusi</div><div class="val">6,26<small>%</small></div><div class="sub">target ≤ 7,57%</div></div>
+  </div>
+  <div class="grid g4" style="margin-top:14px">
+    <div class="card green"><div class="lbl">Penambahan pelanggan</div><div class="val">1.736<small>plg</small></div><span class="delta d-up">target 1.343 · lampaui</span></div>
+    <div class="card red"><div class="lbl">Daya tersambung baru</div><div class="val">7,35<small>MVA</small></div><span class="delta d-warn">68,9% dari target 10,67</span></div>
+    <div class="card amber"><div class="lbl">Aset RUPTL</div><div class="val">90<small>%</small></div><span class="delta d-info">prognosa Juni 109% pasca rekon</span></div>
+    <div class="card red"><div class="lbl">Penjualan ULP Bula</div><div class="val">43,5<small>%</small></div><span class="delta d-warn">0,77 dari target 1,77 GWh</span></div>
+  </div>
+
+  <div class="chart-card">
+    <div class="tbl-head" style="padding:0 0 12px">
+      <h3>Tren NKO bulanan per unit (nilai 110)</h3>
+      <div class="seg" id="segNko">
+        <button class="on" data-f="semua">SEMUA UNIT</button>
+        <button data-f="up3">UP3 SAJA</button>
+        <button data-f="ulp">5 ULP</button>
+      </div>
+    </div>
+    <div class="ch"><canvas id="chNko"></canvas></div>
+  </div>
+
+  <div class="grid g2">
+    <div class="chart-card" style="margin:0"><h3>NKO Mei 2026 per unit</h3><div class="ch sm"><canvas id="chNkoBar"></canvas></div></div>
+    <div class="tbl-wrap" style="margin:0">
+      <div class="tbl-head"><h3>Peringkat NKO ULP · Mei 2026</h3></div>
+      <div class="tbl-scroll"><table id="tblRank"><thead><tr><th>#</th><th>Unit</th><th class="num">Jan</th><th class="num">Mei</th><th class="num">Δ Jan→Mei</th></tr></thead><tbody></tbody></table></div>
+      <div class="tbl-note">Seluruh ULP menunjukkan tren membaik sejak awal tahun.</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================= 09 DASHBOARD KINERJA UNIT ================= -->
+<section class="wrap" id="s9">
+  <div class="sec-head"><span class="sec-no">09</span><h2>Dashboard kinerja per unit <span class="badge-upd" data-meta="rentang">JAN–MEI 2026</span></h2></div>
+  <p class="sec-desc">Rincian indikator kinerja dari dashboard multi-unit 2026. Pilih unit melalui submenu samping <b>UP3 Masohi – ULP</b> (atau tombol di bawah), lalu pilih bulan untuk melihat rekapitulasi target, realisasi, pencapaian, dan nilai per sub-indikator.</p>
+
+  <div class="unit-head">
+    <div>
+      <h3 id="u9Title">UP3 Masohi</h3>
+      <div class="sub9" id="u9Sub">Unit Pelaksana Pelayanan Pelanggan · Data Jan–Mei 2026</div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <div class="seg" id="segUnit9"></div>
+      <div class="month-seg" id="segBulan9"></div>
+    </div>
+  </div>
+
+  <div class="grid g4" id="u9Cards"></div>
+
+  <div class="perhatian-card" id="u9PhCard">
+    <div class="ph-head">
+      <span class="ttl">⚠ Perlu perhatian</span>
+      <span class="n" id="u9PhN">0</span>
+      <span class="cap">sub-indikator &lt; 100% · <span id="u9PhBulan">Mei</span> 2026 · diurutkan dari terendah</span>
+    </div>
+    <div class="ph-grid" id="u9PhList"></div>
+  </div>
+
+  <div class="chart-card">
+    <div class="tbl-head" style="padding:0 0 4px;border:none">
+      <h3 style="font-family:'Sora'">Pencapaian sub-indikator · <span id="u9GaugeBulan">Mei</span> 2026</h3>
+      <span class="mono" style="font-size:10px;color:var(--faint)">SKALA 0–110 · MERAH &lt;80 · KUNING 80–90 · HIJAU 90–110</span>
+    </div>
+    <div class="gauge-grid" id="u9GaugeGrid"></div>
+  </div>
+
+  <div class="grid g2" style="margin-top:14px">
+    <div class="chart-card" style="margin:0"><h3 id="u9TrenTitle">Tren NKO unit vs UP3</h3><div class="ch sm"><canvas id="chU9Nko"></canvas></div></div>
+    <div class="chart-card" style="margin:0"><h3>Nilai per indikator utama · bulan terpilih</h3><div class="ch sm"><canvas id="chU9Bobot"></canvas></div></div>
+  </div>
+
+  <div class="tbl-wrap">
+    <div class="tbl-head"><h3 id="u9TblTitle">Rekapitulasi indikator kinerja</h3></div>
+    <div id="u9NoteUp3" class="note-up3" style="margin:12px 18px 0"></div>
+    <div class="tbl-scroll"><table id="tblKpi9">
+      <thead><tr><th>No</th><th>Indikator kinerja</th><th>Satuan</th><th class="num">Bobot</th><th class="num">Target</th><th class="num">Realisasi</th><th class="num">Pencapaian</th><th class="num">Nilai 110</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <div class="tbl-note">Sumber: Dashboard Kinerja UP3 &amp; ULP Masohi 2026. Status hijau = pencapaian ≥ 100%, kuning = di bawah 100%. Baris kelompok menampilkan nilai gabungan sub-indikator.</div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span id="footPos">Profil pengusahaan UP3 Masohi · posisi data Mei 2026</span>
+    <span>Sumber: memori sertijab Juni 2026 · dashboard kinerja multi-unit 2026</span>
+  </div>
+</footer>
+
+<button id="toTop" title="Kembali ke atas" aria-label="Kembali ke atas">↑</button>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

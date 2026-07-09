@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Data — Profil Pengusahaan UP3 Masohi</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛠</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<style>
+body{padding-bottom:110px}
+.adm-wrap{max-width:1140px;margin:0 auto;padding:0 22px}
+.adm-head{padding:34px 0 6px}
+.adm-head h1{font-size:26px}
+.adm-head .lede{margin-top:8px;font-size:14px}
+.tabbar{display:flex;gap:4px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:4px;flex-wrap:wrap;margin:20px 0 18px}
+.tabbar button{font-family:'IBM Plex Mono';font-size:11.5px;letter-spacing:.06em;border:none;background:transparent;color:var(--muted);border-radius:9px;padding:8px 16px;cursor:pointer}
+.tabbar button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.14);font-weight:500}
+.tab{display:none}
+.tab.on{display:block}
+.adm-tbl input,.adm-tbl select{font-family:'IBM Plex Mono';font-size:12px;background:var(--card2);border:1px solid var(--line);border-radius:7px;padding:5px 8px;color:var(--ink);width:100%;min-width:70px}
+.adm-tbl input:focus,.adm-tbl select:focus{outline:none;border-color:var(--biru)}
+.adm-tbl input.wide{min-width:150px}
+.adm-tbl td{padding:5px 8px}
+.btn{font-family:'IBM Plex Mono';font-size:11.5px;letter-spacing:.05em;border:1px solid var(--line2);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 16px;cursor:pointer}
+.btn:hover{border-color:var(--kuning)}
+.btn.primary{background:var(--kuning-raw);border-color:var(--kuning-raw);color:#10233F;font-weight:600}
+.btn.primary:hover{filter:brightness(1.05)}
+.btn.danger{color:var(--merah)}
+.btn.mini{padding:3px 10px;font-size:10.5px}
+.savebar{position:fixed;left:0;right:0;bottom:0;z-index:960;background:var(--nav-bg);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:14px 22px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.savebar .msg{font-family:'IBM Plex Mono';font-size:11px;color:var(--muted);flex:1;min-width:220px}
+.savebar .msg.err{color:var(--merah)}
+.savebar .msg.ok{color:var(--hijau)}
+textarea.jsonbox{width:100%;min-height:420px;font-family:'IBM Plex Mono';font-size:11.5px;line-height:1.5;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;color:var(--ink);resize:vertical}
+.hint{font-size:12.5px;color:var(--muted);background:var(--biru-soft);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:0 0 14px}
+.meta-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.meta-grid label{display:block;font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
+.meta-grid .card input{width:100%;font-family:'IBM Plex Mono';font-size:13px;background:var(--card2);border:1px solid var(--line);border-radius:8px;padding:8px 10px;color:var(--ink)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <div class="nav-brand"><em>🛠</em> ADMIN DATA · PROFIL PENGUSAHAAN UP3 MASOHI</div>
+    <div style="flex:1"></div>
+    <a class="btn" href="../index.html" style="text-decoration:none">← LIHAT PROFIL</a>
+  </div>
+</nav>
+
+<div class="adm-wrap">
+  <div class="adm-head">
+    <h1>Update data bulanan</h1>
+    <p class="lede">Sunting data di bawah, lalu klik <b>Unduh data.js</b>. Ganti file <span class="mono">js/data.js</span> pada folder project dengan file hasil unduhan — profil akan menampilkan data baru tanpa perlu menyentuh kode.</p>
+  </div>
+
+  <div class="tabbar" id="tabbar">
+    <button class="on" data-t="meta">METADATA</button>
+    <button data-t="neraca">NERACA PELANGGAN</button>
+    <button data-t="sistem">SISTEM KELISTRIKAN</button>
+    <button data-t="nko">NKO BULANAN</button>
+    <button data-t="lanjut">KPI UNIT (LANJUTAN)</button>
+  </div>
+
+  <!-- ===== META ===== -->
+  <div class="tab on" id="tab-meta">
+    <p class="hint">Metadata dipakai untuk judul dokumen, badge «DATA …», «MONITORING …», dan footer pada halaman profil.</p>
+    <div class="meta-grid">
+      <div class="card"><label>Tahun</label><input id="mTahun" type="number"></div>
+      <div class="card"><label>Posisi data (mis. Juni 2026)</label><input id="mPosisi" type="text"></div>
+      <div class="card"><label>Tanggal monitoring pembangkit</label><input id="mMonitor" type="text"></div>
+    </div>
+  </div>
+
+  <!-- ===== NERACA ===== -->
+  <div class="tab" id="tab-neraca">
+    <p class="hint">Rincian 31 unit (5 ULP + 26 KP). <b>Pelanggan</b> = jumlah pelanggan, <b>Daya</b> = VA tersambung, <b>Penjualan</b> = kWh bulan berjalan. Kolom <b>Induk</b> hanya untuk KP. Koordinat dipakai titik peta (format: lat, lng).</p>
+    <div class="tbl-wrap">
+      <div class="tbl-head"><h3>Neraca per unit</h3><button class="btn mini" id="addNer">+ TAMBAH UNIT</button></div>
+      <div class="tbl-scroll"><table class="adm-tbl" id="tNer">
+        <thead><tr><th>Unit</th><th>Jenis</th><th>Induk</th><th class="num">Pelanggan</th><th class="num">Daya (VA)</th><th class="num">Penjualan (kWh)</th><th>Koordinat</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <!-- ===== SISTEM ===== -->
+  <div class="tab" id="tab-sistem">
+    <p class="hint">Kondisi per sistem kelistrikan dari monitoring beban puncak. <b>CAD</b> (cadangan) dihitung otomatis = DM − BP saat diunduh.</p>
+    <div class="tbl-wrap">
+      <div class="tbl-head"><h3>Sistem pembangkitan</h3><button class="btn mini" id="addSis">+ TAMBAH SISTEM</button></div>
+      <div class="tbl-scroll"><table class="adm-tbl" id="tSis">
+        <thead><tr><th>Sistem</th><th>ULP</th><th>Status</th><th class="num">Jam</th><th class="num">DP (MW)</th><th class="num">DM (MW)</th><th class="num">BP (MW)</th><th>Koordinat</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <!-- ===== NKO ===== -->
+  <div class="tab" id="tab-nko">
+    <p class="hint">Nilai NKO bulanan per unit (skala 110). Tombol <b>+ Tambah bulan</b> menambah kolom bulan baru pada seluruh data (NKO dan KPI unit — nilai KPI bulan baru diisi lewat tab «KPI unit»). Kosongkan sel jika belum ada nilai.</p>
+    <div class="tbl-wrap">
+      <div class="tbl-head"><h3>NKO per unit per bulan</h3>
+        <div style="display:flex;gap:8px;align-items:center">
+          <select id="selBulanBaru" class="search" style="min-width:110px"></select>
+          <button class="btn mini" id="addBulan">+ TAMBAH BULAN</button>
+        </div>
+      </div>
+      <div class="tbl-scroll"><table class="adm-tbl" id="tNko"><thead></thead><tbody></tbody></table></div>
+    </div>
+  </div>
+
+  <!-- ===== LANJUTAN ===== -->
+  <div class="tab" id="tab-lanjut">
+    <p class="hint">Data KPI rinci per unit (bab 09) dalam format JSON: <b>ulpData</b> (KPI 5 ULP + NKO), <b>kpiData</b> (KPI UP3), <b>mainKPIs</b> (indikator utama UP3). Setiap indikator memiliki array nilai per bulan — panjangnya harus sama dengan jumlah bulan. Sunting lalu klik <b>Terapkan JSON</b>.</p>
+    <div style="display:flex;gap:8px;margin-bottom:10px">
+      <button class="btn mini" id="applyJson">✓ TERAPKAN JSON</button>
+      <button class="btn mini" id="resetJson">↺ MUAT ULANG DARI DATA</button>
+    </div>
+    <textarea class="jsonbox" id="jsonBox" spellcheck="false"></textarea>
+  </div>
+</div>
+
+<div class="savebar">
+  <span class="msg" id="msg">Siap. Data dimuat dari js/data.js.</span>
+  <button class="btn" id="checkBtn">✓ PERIKSA DATA</button>
+  <button class="btn primary" id="dlBtn">⬇ UNDUH data.js</button>
+</div>
+
+<script src="../js/data.js"></script>
+<script>
+/* ================= UTIL ================= */
+const $ = s => document.querySelector(s);
+const msg = (t, cls) => { const m = $('#msg'); m.textContent = t; m.className = 'msg ' + (cls||''); };
+const num = v => { const x = parseFloat(String(v).replace(',','.')); return isNaN(x) ? null : x; };
+const koorStr = c => Array.isArray(c) ? c[0] + ', ' + c[1] : '';
+const parseKoor = s => {
+  const p = String(s).split(',').map(x=>parseFloat(x.trim()));
+  return (p.length===2 && !p.some(isNaN)) ? p : null;
+};
+
+/* ================= TABS ================= */
+$('#tabbar').addEventListener('click', e=>{
+  if(e.target.tagName!=='BUTTON') return;
+  document.querySelectorAll('#tabbar button').forEach(b=>b.classList.toggle('on', b===e.target));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on', t.id==='tab-'+e.target.dataset.t));
+});
+
+/* ================= META ================= */
+$('#mTahun').value = META.tahun;
+$('#mPosisi').value = META.posisiData;
+$('#mMonitor').value = META.monitoringPembangkit;
+$('#mTahun').oninput = e => META.tahun = parseInt(e.target.value)||META.tahun;
+$('#mPosisi').oninput = e => META.posisiData = e.target.value;
+$('#mMonitor').oninput = e => META.monitoringPembangkit = e.target.value;
+
+/* ================= NERACA ================= */
+const ulpList = () => neraca.filter(u=>u.t==='ULP').map(u=>u.n);
+function renderNer(){
+  $('#tNer tbody').innerHTML = neraca.map((u,i)=>`<tr>
+    <td><input class="wide" data-i="${i}" data-f="n" value="${u.n}"></td>
+    <td><select data-i="${i}" data-f="t"><option${u.t==='ULP'?' selected':''}>ULP</option><option${u.t==='KP'?' selected':''}>KP</option></select></td>
+    <td><select data-i="${i}" data-f="induk" ${u.t==='ULP'?'disabled':''}>${u.t==='ULP'?'<option>—</option>':ulpList().map(x=>`<option${(indukNer[u.n]||'')===x?' selected':''}>${x}</option>`).join('')}</select></td>
+    <td><input type="number" data-i="${i}" data-f="p" value="${u.p}"></td>
+    <td><input type="number" data-i="${i}" data-f="d" value="${u.d}"></td>
+    <td><input type="number" data-i="${i}" data-f="k" value="${u.k}"></td>
+    <td><input class="wide" data-i="${i}" data-f="koor" value="${koorStr(koorNer[u.n])}"></td>
+    <td><button class="btn mini danger" data-del="${i}">✕</button></td>
+  </tr>`).join('');
+}
+$('#tNer').addEventListener('input', e=>{
+  const i = +e.target.dataset.i, f = e.target.dataset.f, u = neraca[i];
+  if(f==='n'){ const old = u.n, v = e.target.value;
+    if(indukNer[old]!==undefined){ indukNer[v]=indukNer[old]; delete indukNer[old]; }
+    if(koorNer[old]!==undefined){ koorNer[v]=koorNer[old]; delete koorNer[old]; }
+    u.n = v;
+  }
+  else if(f==='t'){ u.t = e.target.value; if(u.t==='ULP') delete indukNer[u.n]; renderNer(); }
+  else if(f==='induk'){ indukNer[u.n] = e.target.value; }
+  else if(f==='koor'){ const c = parseKoor(e.target.value); if(c) koorNer[u.n] = c; }
+  else { u[f] = num(e.target.value) ?? 0; }
+});
+$('#tNer').addEventListener('click', e=>{
+  const d = e.target.dataset.del;
+  if(d!==undefined){ const u = neraca[+d]; delete indukNer[u.n]; delete koorNer[u.n]; neraca.splice(+d,1); renderNer(); }
+});
+$('#addNer').onclick = ()=>{ neraca.push({n:'KP Baru', t:'KP', p:0, d:0, k:0}); renderNer(); };
+
+/* ================= SISTEM ================= */
+function renderSis(){
+  $('#tSis tbody').innerHTML = sistem.map((s,i)=>`<tr>
+    <td><input class="wide" data-i="${i}" data-f="n" value="${s.n}"></td>
+    <td><input data-i="${i}" data-f="u" value="${s.u}"></td>
+    <td><select data-i="${i}" data-f="st"><option${s.st==='Aman'?' selected':''}>Aman</option><option${s.st==='Siaga'?' selected':''}>Siaga</option></select></td>
+    <td><input type="number" data-i="${i}" data-f="j" value="${s.j}"></td>
+    <td><input type="number" step="0.01" data-i="${i}" data-f="dp" value="${s.dp}"></td>
+    <td><input type="number" step="0.01" data-i="${i}" data-f="dm" value="${s.dm}"></td>
+    <td><input type="number" step="0.01" data-i="${i}" data-f="bp" value="${s.bp}"></td>
+    <td><input class="wide" data-i="${i}" data-f="koor" value="${koorStr(s.c)}"></td>
+    <td><button class="btn mini danger" data-del="${i}">✕</button></td>
+  </tr>`).join('');
+}
+$('#tSis').addEventListener('input', e=>{
+  const i = +e.target.dataset.i, f = e.target.dataset.f, s = sistem[i];
+  if(f==='n'||f==='u'||f==='st'){ s[f] = e.target.value; }
+  else if(f==='koor'){ const c = parseKoor(e.target.value); if(c) s.c = c; }
+  else { s[f] = num(e.target.value) ?? 0; }
+});
+$('#tSis').addEventListener('click', e=>{
+  const d = e.target.dataset.del;
+  if(d!==undefined){ sistem.splice(+d,1); renderSis(); }
+});
+$('#addSis').onclick = ()=>{ sistem.push({n:'PLTD Baru', u:'MASOHI', st:'Aman', j:24, dp:0, dm:0, bp:0, cad:0, c:[-3.3,129.0]}); renderSis(); };
+
+/* ================= NKO ================= */
+const urutanBulan = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+function renderNko(){
+  $('#tNko thead').innerHTML = '<tr><th>Unit</th>' + bulan.map(b=>`<th class="num">${b}</th>`).join('') + '</tr>';
+  $('#tNko tbody').innerHTML = Object.entries(nko).map(([k,v])=>`<tr>
+    <td style="white-space:nowrap;font-weight:600">${k}</td>
+    ${bulan.map((b,m)=>`<td><input type="number" step="0.01" data-k="${k}" data-m="${m}" value="${v.d[m] ?? ''}"></td>`).join('')}
+  </tr>`).join('');
+  const sisa = urutanBulan.filter(b=>!bulan.includes(b));
+  $('#selBulanBaru').innerHTML = sisa.map(b=>`<option>${b}</option>`).join('');
+  $('#addBulan').disabled = !sisa.length;
+}
+$('#tNko').addEventListener('input', e=>{
+  const k = e.target.dataset.k, m = +e.target.dataset.m;
+  if(k===undefined) return;
+  nko[k].d[m] = e.target.value==='' ? null : num(e.target.value);
+});
+$('#addBulan').onclick = ()=>{
+  const b = $('#selBulanBaru').value; if(!b) return;
+  bulan.push(b);
+  Object.values(nko).forEach(v=>{ while(v.d.length<bulan.length) v.d.push(null); });
+  Object.values(ulpData).forEach(u=>{
+    while(u.nko.length<bulan.length) u.nko.push(null);
+    (u.kpi||[]).forEach(k=>['target','realisasi','pencapaian','nilai100'].forEach(f=>{ while(k[f].length<bulan.length) k[f].push(null); }));
+  });
+  kpiData.forEach(k=>['target','realisasi','pencapaian','nilai100'].forEach(f=>{ while(k[f].length<bulan.length) k[f].push(null); }));
+  mainKPIs.forEach(k=>{ while(k.nilai100.length<bulan.length) k.nilai100.push(null); });
+  renderNko(); loadJson();
+  msg(`Bulan ${b} ditambahkan — seluruh array data diperpanjang. Isi nilai KPI bulan baru di tab «KPI unit».`, 'ok');
+};
+
+/* ================= LANJUTAN (JSON) ================= */
+function loadJson(){
+  $('#jsonBox').value = JSON.stringify({ulpData, kpiData, mainKPIs, warnaUlp}, null, 1);
+}
+function replaceObj(t, s){ Object.keys(t).forEach(k=>delete t[k]); Object.assign(t, s); }
+function replaceArr(t, s){ t.length = 0; t.push(...s); }
+$('#applyJson').onclick = ()=>{
+  try{
+    const j = JSON.parse($('#jsonBox').value);
+    if(j.ulpData) replaceObj(ulpData, j.ulpData);
+    if(j.kpiData) replaceArr(kpiData, j.kpiData);
+    if(j.mainKPIs) replaceArr(mainKPIs, j.mainKPIs);
+    if(j.warnaUlp) replaceObj(warnaUlp, j.warnaUlp);
+    renderNko();
+    msg('JSON diterapkan.', 'ok');
+  }catch(err){ msg('JSON tidak valid: ' + err.message, 'err'); }
+};
+$('#resetJson').onclick = ()=>{ loadJson(); msg('JSON dimuat ulang dari data aktif.'); };
+
+/* ================= VALIDASI ================= */
+function periksa(){
+  const errs = [];
+  const nB = bulan.length;
+  Object.entries(nko).forEach(([k,v])=>{ if(v.d.length!==nB) errs.push(`NKO ${k}: ${v.d.length} nilai, seharusnya ${nB}`); });
+  Object.entries(ulpData).forEach(([k,u])=>{
+    if(u.nko.length!==nB) errs.push(`ulpData.${k}.nko: ${u.nko.length} nilai, seharusnya ${nB}`);
+    (u.kpi||[]).forEach(i=>['target','realisasi','pencapaian','nilai100'].forEach(f=>{
+      if(i[f].length!==nB) errs.push(`ulpData.${k} «${i.name}».${f}: ${i[f].length} nilai, seharusnya ${nB}`);
+    }));
+  });
+  kpiData.forEach(i=>['target','realisasi','pencapaian','nilai100'].forEach(f=>{
+    if(i[f].length!==nB) errs.push(`kpiData «${i.name}».${f}: ${i[f].length} nilai, seharusnya ${nB}`);
+  }));
+  neraca.forEach(u=>{
+    if(u.t==='KP' && !indukNer[u.n]) errs.push(`Neraca ${u.n}: KP tanpa ULP induk`);
+    if(!koorNer[u.n]) errs.push(`Neraca ${u.n}: belum ada koordinat peta`);
+  });
+  return errs;
+}
+$('#checkBtn').onclick = ()=>{
+  const errs = periksa();
+  if(errs.length) msg('⚠ ' + errs.length + ' masalah: ' + errs.slice(0,3).join(' · ') + (errs.length>3?' · …':''), 'err');
+  else msg('✓ Data konsisten — siap diunduh.', 'ok');
+};
+
+/* ================= EKSPOR data.js ================= */
+function buildDataJs(){
+  /* sinkronkan turunan */
+  sistem.forEach(s=>{ s.cad = +(s.dm - s.bp).toFixed(2); });
+  Object.keys(ulpData).forEach(k=>{
+    const seri = nko[ulpData[k].label];
+    if(seri) ulpData[k].nko = seri.d.slice();
+  });
+  const j = o => JSON.stringify(o);
+  const rows = (arr) => arr.map(x=>'  '+j(x)).join(',\n');
+  const objLines = (o) => Object.entries(o).map(([k,v])=>'  '+j(k)+': '+j(v)).join(',\n');
+  return `/* =====================================================================
+   DATA PROFIL PENGUSAHAAN UP3 MASOHI
+   File ini adalah SATU-SATUNYA tempat data. Untuk update bulanan,
+   gunakan halaman admin (admin/index.html) lalu ganti file ini
+   dengan hasil unduhan — tidak perlu menyentuh kode lain.
+   Dihasilkan oleh halaman admin.
+   ===================================================================== */
+
+const META = ${JSON.stringify(META, null, 2)};
+
+const neraca = [
+${rows(neraca)}
+];
+const indukNer = {
+${objLines(indukNer)}
+};
+const koorNer = {
+${objLines(koorNer)}
+};
+const sistem = [
+${rows(sistem)}
+];
+const bulan = ${j(bulan)};
+const nko = {
+${objLines(nko)}
+};
+const warnaUlp = ${JSON.stringify(warnaUlp, null, 1)};
+
+/* ================= DATA KPI PER UNIT (bab 09) ================= */
+const ulpData = ${JSON.stringify(ulpData, null, 1)};
+
+const kpiData = ${JSON.stringify(kpiData, null, 1)};
+
+const mainKPIs = ${JSON.stringify(mainKPIs, null, 1)};
+`;
+}
+$('#dlBtn').onclick = ()=>{
+  const errs = periksa();
+  if(errs.length && !confirm('Ada ' + errs.length + ' masalah data:\n\n' + errs.slice(0,8).join('\n') + '\n\nTetap unduh?')) return;
+  const blob = new Blob([buildDataJs()], {type:'text/javascript'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'data.js';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  msg('data.js diunduh — ganti file js/data.js dengan file ini.', 'ok');
+};
+
+/* init */
+renderNer(); renderSis(); renderNko(); loadJson();
+</script>
+</body>
+</html>
