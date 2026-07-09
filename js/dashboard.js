@@ -70,7 +70,7 @@ function setUnit9(key){
 
 function renderUnit9(){
   const u = ulpData[unit9], m = bulan9, arr = kpi9(unit9);
-  document.getElementById('u9Title').textContent = u.label;
+  document.getElementById('u9Title').textContent = 'Kinerja ' + u.label;
   document.getElementById('u9Sub').textContent = u.subtitle + ' · Data ' + bulan[0] + '–' + bulan[bulan.length-1] + ' ' + (typeof META!=='undefined'?META.tahun:'');
   document.getElementById('u9TblTitle').textContent = 'Rekapitulasi indikator kinerja — ' + u.label + ' · ' + namaBulan[m] + ' 2026';
 
