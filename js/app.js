@@ -7,9 +7,12 @@ const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).
 if(typeof META !== 'undefined'){
   const up = s => String(s).toUpperCase();
   const blnAkhir = bulan[bulan.length-1];
-  document.title = 'Profil Pengusahaan — UP3 Masohi · ' + META.posisiData;
-  document.getElementById('docPos').textContent = 'POSISI DATA · ' + up(META.posisiData);
-  document.getElementById('footPos').textContent = 'Profil pengusahaan UP3 Masohi · posisi data ' + META.posisiData;
+  /* posisi dokumen mengikuti bulan terakhir data yang di-update */
+  const namaBulanPenuh = {Jan:'Januari',Feb:'Februari',Mar:'Maret',Apr:'April',Mei:'Mei',Jun:'Juni',Jul:'Juli',Agu:'Agustus',Sep:'September',Okt:'Oktober',Nov:'November',Des:'Desember'};
+  const posisiDok = (namaBulanPenuh[blnAkhir]||blnAkhir) + ' ' + META.tahun;
+  document.title = 'Profil Pengusahaan — UP3 Masohi · ' + posisiDok;
+  document.getElementById('docPos').textContent = 'POSISI DATA · ' + up(posisiDok);
+  document.getElementById('footPos').textContent = 'Profil pengusahaan UP3 Masohi · posisi data ' + posisiDok;
   document.querySelectorAll('[data-meta="posisi"]').forEach(e => e.textContent = 'DATA ' + up(META.posisiData));
   document.querySelectorAll('[data-meta="monitoring"]').forEach(e => e.textContent = 'MONITORING ' + up(META.monitoringPembangkit));
   document.querySelectorAll('[data-meta="rentang"]').forEach(e => e.textContent = up(bulan[0]) + '–' + up(blnAkhir) + ' ' + META.tahun);
