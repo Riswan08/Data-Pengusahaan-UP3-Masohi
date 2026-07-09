@@ -1,6 +1,6 @@
 /* ================= UTIL ================= */
-const idn = n => Math.round(n).toLocaleString('id-ID');
-const f2 = n => n.toLocaleString('id-ID',{minimumFractionDigits:2,maximumFractionDigits:2});
+const idn = n => (n===null||n===undefined||isNaN(n)) ? '—' : Math.round(n).toLocaleString('id-ID');
+const f2 = n => (n===null||n===undefined||isNaN(n)) ? '—' : n.toLocaleString('id-ID',{minimumFractionDigits:2,maximumFractionDigits:2});
 const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 
 /* ================= METADATA DOKUMEN ================= */
@@ -220,12 +220,12 @@ charts.nkoBar = new Chart(document.getElementById('chNkoBar'), {
   options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:90,max:112}}}
 });
 
-const rank = mei.filter(m=>m.n!=='UP3 Masohi').sort((a,b)=>b.mei-a.mei);
+const rank = mei.filter(m=>m.n!=='UP3 Masohi').sort((a,b)=>(b.mei??-1)-(a.mei??-1));
 document.querySelector('#tblRank tbody').innerHTML = rank.map((m,i)=>{
-  const d = m.mei-m.jan;
+  const d = (m.mei===null||m.mei===undefined||m.jan===null||m.jan===undefined) ? null : m.mei-m.jan;
   return `<tr><td class="num">${i+1}</td><td>${m.n}</td>
     <td class="num">${f2(m.jan)}</td><td class="num"><b>${f2(m.mei)}</b></td>
-    <td class="num"><span class="pill ${d>=0?'p-ok':'p-bad'}">${d>=0?'▲ +':'▼ '}${f2(d)}</span></td></tr>`;
+    <td class="num">${d===null?'—':`<span class="pill ${d>=0?'p-ok':'p-bad'}">${d>=0?'▲ +':'▼ '}${f2(d)}</span>`}</td></tr>`;
 }).join('');
 
 /* tema awal: ikuti pilihan tersimpan, atau preferensi sistem */

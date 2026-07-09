@@ -45,8 +45,13 @@ Pengusahaan/
 3. Pilih file: `data.js`/JSON (hasil unduhan halaman ini) untuk semua bagian, atau
    **CSV dari Excel** untuk Kinerja/Pelanggan/Sistem — unduh dulu **template CSV**
    agar nama kolom sesuai (pemisah `;` atau `,`, desimal koma didukung).
-   Pada CSV kinerja, menambah kolom bulan baru (mis. `Jun`) otomatis memperpanjang
-   seluruh struktur data.
+   Untuk kinerja tersedia dua template:
+   - **NKO bulanan** — baris = unit, kolom = bulan; kolom bulan baru (mis. `Jun`)
+     otomatis memperpanjang seluruh struktur data.
+   - **Indikator kinerja (KPI)** — satu baris = satu indikator per unit per bulan
+     (`unit;no;…;bulan;target;realisasi;pencapaian;nilai110`); identifikasi baris
+     berdasarkan kolom `unit` + `no`, bulan baru pada kolom `bulan` otomatis
+     ditambahkan, dan indikator utama UP3 ikut tersinkron.
 4. Klik **✓ Terapkan ke data** → periksa ringkasan → **⬇ Unduh data.js** → ganti
    file `js/data.js`.
 

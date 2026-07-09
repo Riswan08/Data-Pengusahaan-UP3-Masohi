@@ -93,12 +93,13 @@ textarea.jsonbox{width:100%;min-height:420px;font-family:'IBM Plex Mono';font-si
       <h3 style="font-size:14px;margin-bottom:12px">1 · Bagian yang akan diperbarui</h3>
       <div class="up-choices" id="upBagian">
         <label class="up-choice on"><input type="radio" name="upB" value="semua" checked> <b>Semua bagian</b><span>file data.js / JSON lengkap</span></label>
-        <label class="up-choice"><input type="radio" name="upB" value="kinerja"> <b>Kinerja bulanan</b><span>NKO &amp; KPI unit · bab 08–09 · data.js/JSON/CSV</span></label>
+        <label class="up-choice"><input type="radio" name="upB" value="kinerja"> <b>Kinerja bulanan</b><span>NKO &amp; indikator kinerja (KPI) unit · bab 08–09 · data.js/JSON/CSV</span></label>
         <label class="up-choice"><input type="radio" name="upB" value="pelanggan"> <b>Data pelanggan</b><span>neraca 31 unit · bab 05 · data.js/JSON/CSV</span></label>
         <label class="up-choice"><input type="radio" name="upB" value="sistem"> <b>Sistem kelistrikan</b><span>monitoring pembangkit · bab 07 · data.js/JSON/CSV</span></label>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
-        <button class="btn mini" id="tplNko">⬇ TEMPLATE CSV KINERJA (NKO)</button>
+        <button class="btn mini" id="tplNko">⬇ TEMPLATE CSV NKO BULANAN</button>
+        <button class="btn mini" id="tplKpi">⬇ TEMPLATE CSV INDIKATOR KINERJA</button>
         <button class="btn mini" id="tplNer">⬇ TEMPLATE CSV PELANGGAN</button>
         <button class="btn mini" id="tplSis">⬇ TEMPLATE CSV SISTEM</button>
       </div>
@@ -441,7 +442,63 @@ function applyCsvSistem(rows){
   replaceArr(sistem, arr);
   return arr.length + ' sistem kelistrikan diperbarui';
 }
+/* CSV kinerja punya dua bentuk: NKO (unit + kolom bulan) dan
+   indikator KPI (unit;no;bulan;target;realisasi;pencapaian;nilai110) */
 function applyCsvKinerja(rows){
+  if(rows.headers.includes('no') && rows.headers.includes('bulan')) return applyCsvKpi(rows);
+  return applyCsvNko(rows);
+}
+
+/* pastikan bulan ada; jika baru, perpanjang seluruh struktur data ke bulan itu */
+function pastikanBulan(nama){
+  let idx = bulan.indexOf(nama);
+  if(idx !== -1) return idx;
+  bulan.push(nama);
+  Object.values(nko).forEach(v=>{ while(v.d.length<bulan.length) v.d.push(null); });
+  Object.keys(ulpData).forEach(k=>{
+    while(ulpData[k].nko.length<bulan.length) ulpData[k].nko.push(null);
+    (ulpData[k].kpi||[]).forEach(i=>['target','realisasi','pencapaian','nilai100'].forEach(f=>{ while(i[f].length<bulan.length) i[f].push(null); }));
+  });
+  kpiData.forEach(i=>['target','realisasi','pencapaian','nilai100'].forEach(f=>{ while(i[f].length<bulan.length) i[f].push(null); }));
+  mainKPIs.forEach(k=>{ while(k.nilai100.length<bulan.length) k.nilai100.push(null); });
+  return bulan.length-1;
+}
+
+function applyCsvKpi(rows){
+  wajibKolom(rows, ['unit','no','bulan','target','realisasi','pencapaian','nilai110']);
+  const byLabel = {};
+  Object.keys(ulpData).forEach(k=>byLabel[ulpData[k].label.toLowerCase()] = k);
+  let nOk = 0;
+  const masalah = new Set(), bulanTersentuh = new Set();
+  rows.forEach(r=>{
+    if(!r.unit || !r.no) return;
+    const key = byLabel[r.unit.toLowerCase()];
+    if(!key){ masalah.add('unit tak dikenal: «'+r.unit+'»'); return; }
+    const arr = key==='up3' ? kpiData : (ulpData[key].kpi||[]);
+    const ind = arr.find(i=>String(i.no).toLowerCase()===String(r.no).toLowerCase());
+    if(!ind){ masalah.add('no «'+r.no+'» tidak ada di '+r.unit); return; }
+    const b = urutanBulan.find(x=>x.toLowerCase()===String(r.bulan).trim().toLowerCase());
+    if(!b){ masalah.add('bulan tak dikenal: «'+r.bulan+'»'); return; }
+    const m = pastikanBulan(b);
+    bulanTersentuh.add(b);
+    ind.target[m]     = csvNum(r.target);
+    ind.realisasi[m]  = csvNum(r.realisasi);
+    ind.pencapaian[m] = csvNum(r.pencapaian);
+    ind.nilai100[m]   = csvNum(r.nilai110);
+    /* jaga grafik «indikator utama» UP3 tetap sinkron */
+    if(key==='up3'){
+      const mk = mainKPIs.find(x=>x.name.toLowerCase()===String(ind.name).toLowerCase());
+      if(mk) mk.nilai100[m] = csvNum(r.nilai110);
+    }
+    nOk++;
+  });
+  if(!nOk) throw new Error('tidak ada baris yang cocok — ' + ([...masalah].slice(0,3).join(' · ') || 'periksa kolom unit/no/bulan (unduh template).'));
+  let hasil = nOk + ' nilai indikator diperbarui (bulan: ' + [...bulanTersentuh].join(', ') + ')';
+  if(masalah.size) hasil += ' · dilewati: ' + [...masalah].slice(0,3).join(' · ') + (masalah.size>3 ? ' · +' + (masalah.size-3) + ' lainnya' : '');
+  return hasil;
+}
+
+function applyCsvNko(rows){
   wajibKolom(rows, ['unit']);
   const mCols = rows.headers.filter(h=>h!=='unit');
   const mNames = mCols.map(h=>{
@@ -511,6 +568,22 @@ $('#tplSis').onclick = ()=>dlCsv('template_sistem.csv', [
 $('#tplNko').onclick = ()=>dlCsv('template_kinerja_nko.csv', [
   'unit;' + bulan.join(';'),
   ...Object.entries(nko).map(([k,v])=>[csvQ(k),...v.d.map(csvN)].join(';'))]);
+$('#tplKpi').onclick = ()=>{
+  const m = bulan.length-1, bln = bulan[m];
+  const baris = ['unit;no;indikator;satuan;bobot;grup;bulan;target;realisasi;pencapaian;nilai110'];
+  Object.keys(ulpData).forEach(k=>{
+    const label = ulpData[k].label;
+    const arr = k==='up3' ? kpiData : (ulpData[k].kpi||[]);
+    arr.forEach(i=>{
+      const sat = k==='up3' ? i.satuan : i.sat;
+      const bob = k==='up3' ? i.bobot : i.bob;
+      const grp = k==='up3' ? i.isGroup : i.grp;
+      baris.push([csvQ(label), csvQ(i.no), csvQ(i.name), csvQ(sat||''), bob??'', grp?'ya':'', bln,
+        csvN(i.target[m]), csvN(i.realisasi[m]), csvN(i.pencapaian[m]), csvN(i.nilai100[m])].join(';'));
+    });
+  });
+  dlCsv('template_indikator_kinerja.csv', baris);
+};
 
 /* ================= VALIDASI ================= */
 function periksa(){

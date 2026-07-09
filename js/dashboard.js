@@ -76,7 +76,8 @@ function renderUnit9(){
   const tercapai = subs.filter(k=>k.pencapaian[m]>=100).length;
   const perhatian = subs.length - tercapai;
   const avg = subs.reduce((s,k)=>s+k.pencapaian[m],0)/(subs.length||1);
-  const nkoM = u.nko[m], dM = m>0 ? nkoM-u.nko[m-1] : null;
+  const nkoM = u.nko[m];
+  const dM = (m>0 && nkoM!==null && nkoM!==undefined && u.nko[m-1]!==null && u.nko[m-1]!==undefined) ? nkoM-u.nko[m-1] : null;
   document.getElementById('u9Cards').innerHTML = `
     <div class="card acc amber"><div class="lbl">NKO ${namaBulan[m]}</div><div class="val">${fmt9(nkoM)}</div>
       ${dM===null?'<div class="sub">skala nilai 110</div>':`<span class="delta ${dM>=0?'d-up':'d-warn'}">${dM>=0?'▲ +':'▼ '}${fmt9(dM)} dari ${namaBulan[m-1]}</span>`}</div>
