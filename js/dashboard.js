@@ -1,6 +1,6 @@
 
 
-const kpiUP3 = kpiData.map(k=>({no:k.no,name:k.name,sat:k.satuan,bob:k.bobot,grp:k.isGroup,
+const kpiUP3 = kpiData.map(k=>({no:k.no,name:k.name,sat:k.satuan,bob:k.bobot,grp:k.isGroup,top:k.top,
   target:k.target,realisasi:k.realisasi,pencapaian:k.pencapaian,nilai100:k.nilai100}));
 const unitKeys = ['up3','masohi','kairatu','piru','kobisonta','bula'];
 const unitIcon = k => k==='up3' ? '🏢' : '📍';
@@ -8,7 +8,10 @@ const unitColor = {up3:'#C88F00',masohi:'#0E7D92',kairatu:'#1E8E5A',piru:'#5B54B
 let unit9 = 'up3', bulan9 = bulan.length-1; /* default: bulan terakhir yang tersedia */
 
 function kpi9(key){ return key==='up3' ? kpiUP3 : ulpData[key].kpi; }
-function fmt9(v,dec){ return (v===null||v===undefined||isNaN(v)) ? '—' : v.toLocaleString('id-ID',{minimumFractionDigits:dec===undefined?2:dec,maximumFractionDigits:dec===undefined?2:dec}); }
+function fmt9(v,dec){
+  if(typeof v === 'string' && v !== '') return v; /* target berupa teks, mis. "95-100" */
+  return (v===null||v===undefined||v===''||isNaN(v)) ? '—' : v.toLocaleString('id-ID',{minimumFractionDigits:dec===undefined?2:dec,maximumFractionDigits:dec===undefined?2:dec});
+}
 
 /* --- sidebar unit submenu --- */
 const sbUnits = document.getElementById('sbUnits');
@@ -103,9 +106,19 @@ function renderUnit9(){
       <td>${status}</td></tr>`;
   }).join('');
 
+  /* catatan UP3: dibuat dinamis dari data — sub-KPI < 100% pada bulan terpilih */
   const note = document.getElementById('u9NoteUp3');
-  note.style.display = unit9==='up3' ? 'block' : 'none';
-  note.innerHTML = '💡 Dua sub-KPI UP3 yang memerlukan perhatian khusus per Mei: <b>daya tersambung</b> (68,9% dari target) dan <b>aset RUPTL</b> (90%, prognosa Juni 109% pasca rekon) — rincian pada bab 08.';
+  const kurang = unit9==='up3'
+    ? arr.filter(k=>!k.grp && typeof k.pencapaian[m]==='number' && k.pencapaian[m]<100)
+         .sort((a,b)=>a.pencapaian[m]-b.pencapaian[m]).slice(0,3)
+    : [];
+  if(unit9==='up3' && kurang.length){
+    note.style.display = 'block';
+    note.innerHTML = '💡 Sub-KPI UP3 dengan pencapaian di bawah 100% per ' + namaBulan[m] + ': ' +
+      kurang.map(k=>`<b>${k.name.replace(/^·\s*/,'')}</b> (${k.pencapaian[m].toLocaleString('id-ID',{maximumFractionDigits:1})}%)`).join(' · ') + '.';
+  } else {
+    note.style.display = 'none';
+  }
 
   /* charts */
   const clr = unitColor[unit9];
@@ -119,10 +132,10 @@ function renderUnit9(){
   document.getElementById('u9TrenTitle').textContent = unit9==='up3' ? 'Tren NKO UP3 Masohi' : 'Tren NKO ' + u.label + ' vs UP3';
 
   if(charts.u9Bobot) charts.u9Bobot.destroy();
-  /* indikator utama = baris tanpa sufiks huruf pada nomor (grup + indikator tunggal) */
+  /* indikator utama = baris ber-flag top (fallback: nomor tanpa sufiks huruf) */
   const use = unit9==='up3'
     ? mainKPIs.map(k=>({name:k.name,bob:k.bobot,val:k.nilai100[m]}))
-    : arr.filter(k=>!/[a-z]$/i.test(String(k.no)))
+    : arr.filter(k=>k.top!==undefined ? k.top : !/[a-z]$/i.test(String(k.no)))
          .sort((a,b)=>parseInt(a.no)-parseInt(b.no))
          .map(k=>({name:k.name,bob:k.bob,val:k.nilai100[m]}));
   charts.u9Bobot = new Chart(document.getElementById('chU9Bobot'),{type:'bar',

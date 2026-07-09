@@ -13,6 +13,7 @@ if(typeof META !== 'undefined'){
   document.querySelectorAll('[data-meta="posisi"]').forEach(e => e.textContent = 'DATA ' + up(META.posisiData));
   document.querySelectorAll('[data-meta="monitoring"]').forEach(e => e.textContent = 'MONITORING ' + up(META.monitoringPembangkit));
   document.querySelectorAll('[data-meta="rentang"]').forEach(e => e.textContent = up(bulan[0]) + '–' + up(blnAkhir) + ' ' + META.tahun);
+  document.querySelectorAll('.bulan-akhir').forEach(e => e.textContent = blnAkhir);
 }
 
 /* ================= TEMA ================= */
