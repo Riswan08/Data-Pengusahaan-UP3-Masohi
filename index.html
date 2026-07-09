@@ -487,6 +487,25 @@
 
 <button id="toTop" title="Kembali ke atas" aria-label="Kembali ke atas">↑</button>
 
+<!-- ===== DIALOG CETAK ===== -->
+<div class="modal-back" id="printModal" role="dialog" aria-modal="true" aria-labelledby="pmTitle">
+  <div class="modal">
+    <div class="pm-head"><h3 id="pmTitle">⎙ Cetak / simpan PDF</h3><button class="pm-x" id="pmClose" aria-label="Tutup">✕</button></div>
+    <p class="pm-desc">Pilih bagian yang akan dicetak:</p>
+    <div class="pm-presets">
+      <button data-p="semua">SEMUA</button>
+      <button data-p="kinerja">HANYA KINERJA (08–09)</button>
+      <button data-p="kosong">KOSONGKAN</button>
+    </div>
+    <div class="pm-list" id="pmList"></div>
+    <p class="pm-note">💡 Bab 09 tercetak sesuai unit &amp; bulan yang sedang terpilih pada halaman. Gunakan tujuan «Save as PDF» pada dialog cetak browser untuk menyimpan sebagai PDF.</p>
+    <div class="pm-actions">
+      <button class="pm-batal" id="pmBatal">BATAL</button>
+      <button class="pm-go" id="pmCetak">⎙ CETAK SEKARANG</button>
+    </div>
+  </div>
+</div>
+
 <script src="js/data.js"></script>
 <script src="js/app.js"></script>
 <script src="js/dashboard.js"></script>

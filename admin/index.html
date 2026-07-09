@@ -37,6 +37,17 @@ textarea.jsonbox{width:100%;min-height:420px;font-family:'IBM Plex Mono';font-si
 .meta-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
 .meta-grid label{display:block;font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
 .meta-grid .card input{width:100%;font-family:'IBM Plex Mono';font-size:13px;background:var(--card2);border:1px solid var(--line);border-radius:8px;padding:8px 10px;color:var(--ink)}
+.up-choices{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.up-choice{display:block;border:1px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer;font-size:13px}
+.up-choice:hover{border-color:var(--biru)}
+.up-choice input{margin-right:6px;accent-color:var(--biru)}
+.up-choice span{display:block;font-size:11px;color:var(--faint);margin-top:3px}
+.up-choice.on{border-color:var(--kuning);background:var(--kuning-soft)}
+#upFile{font-family:'IBM Plex Mono';font-size:12px;color:var(--muted);max-width:100%;display:block;width:100%;border:1.5px dashed var(--line2);border-radius:10px;padding:18px 14px;background:var(--card2);cursor:pointer}
+#upFile:hover{border-color:var(--biru)}
+#upFile::file-selector-button{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.05em;border:1px solid var(--line2);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer;margin-right:12px}
+.up-preview{margin-top:12px;font-family:'IBM Plex Mono';font-size:11.5px;line-height:1.6;background:var(--card2);border:1px solid var(--hijau);border-radius:10px;padding:10px 14px;white-space:pre-wrap;word-break:break-word}
+.up-preview.err{border-color:var(--merah);color:var(--merah)}
 </style>
 </head>
 <body>
@@ -57,6 +68,7 @@ textarea.jsonbox{width:100%;min-height:420px;font-family:'IBM Plex Mono';font-si
 
   <div class="tabbar" id="tabbar">
     <button class="on" data-t="meta">METADATA</button>
+    <button data-t="upload">⬆ UPLOAD DATA</button>
     <button data-t="neraca">NERACA PELANGGAN</button>
     <button data-t="sistem">SISTEM KELISTRIKAN</button>
     <button data-t="nko">NKO BULANAN</button>
@@ -70,6 +82,33 @@ textarea.jsonbox{width:100%;min-height:420px;font-family:'IBM Plex Mono';font-si
       <div class="card"><label>Tahun</label><input id="mTahun" type="number"></div>
       <div class="card"><label>Posisi data (mis. Juni 2026)</label><input id="mPosisi" type="text"></div>
       <div class="card"><label>Tanggal monitoring pembangkit</label><input id="mMonitor" type="text"></div>
+    </div>
+  </div>
+
+  <!-- ===== UPLOAD ===== -->
+  <div class="tab" id="tab-upload">
+    <p class="hint">Perbarui data dengan mengunggah file — pilih dulu <b>bagian</b> yang mau diperbarui. Format: <b>data.js / JSON</b> (hasil unduhan halaman ini) untuk semua bagian, atau <b>CSV dari Excel</b> (pemisah <span class="mono">;</span> atau <span class="mono">,</span> — desimal koma didukung) untuk Kinerja/Pelanggan/Sistem. Unduh template CSV di bawah agar nama kolom sesuai.</p>
+
+    <div class="card" style="margin-bottom:14px">
+      <h3 style="font-size:14px;margin-bottom:12px">1 · Bagian yang akan diperbarui</h3>
+      <div class="up-choices" id="upBagian">
+        <label class="up-choice on"><input type="radio" name="upB" value="semua" checked> <b>Semua bagian</b><span>file data.js / JSON lengkap</span></label>
+        <label class="up-choice"><input type="radio" name="upB" value="kinerja"> <b>Kinerja bulanan</b><span>NKO &amp; KPI unit · bab 08–09 · data.js/JSON/CSV</span></label>
+        <label class="up-choice"><input type="radio" name="upB" value="pelanggan"> <b>Data pelanggan</b><span>neraca 31 unit · bab 05 · data.js/JSON/CSV</span></label>
+        <label class="up-choice"><input type="radio" name="upB" value="sistem"> <b>Sistem kelistrikan</b><span>monitoring pembangkit · bab 07 · data.js/JSON/CSV</span></label>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+        <button class="btn mini" id="tplNko">⬇ TEMPLATE CSV KINERJA (NKO)</button>
+        <button class="btn mini" id="tplNer">⬇ TEMPLATE CSV PELANGGAN</button>
+        <button class="btn mini" id="tplSis">⬇ TEMPLATE CSV SISTEM</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:14px;margin-bottom:12px">2 · Pilih file lalu terapkan</h3>
+      <input type="file" id="upFile" accept=".js,.json,.csv,text/csv,application/json,text/javascript">
+      <div class="up-preview" id="upPreview" style="display:none"></div>
+      <div style="margin-top:14px"><button class="btn primary" id="upApply" disabled>✓ TERAPKAN KE DATA</button></div>
     </div>
   </div>
 
@@ -262,6 +301,216 @@ $('#applyJson').onclick = ()=>{
   }catch(err){ msg('JSON tidak valid: ' + err.message, 'err'); }
 };
 $('#resetJson').onclick = ()=>{ loadJson(); msg('JSON dimuat ulang dari data aktif.'); };
+
+/* ================= UPLOAD DATA ================= */
+const upFile = $('#upFile'), upApply = $('#upApply'), upPrev = $('#upPreview');
+let upPending = null;
+
+const upMode = () => document.querySelector('input[name="upB"]:checked').value;
+$('#upBagian').addEventListener('change', ()=>{
+  document.querySelectorAll('.up-choice').forEach(l=>l.classList.toggle('on', l.querySelector('input').checked));
+  upFile.value = ''; upPending = null; upApply.disabled = true; upPrev.style.display = 'none';
+});
+
+function prevOk(t){ upPrev.style.display='block'; upPrev.className='up-preview'; upPrev.textContent=t; }
+function prevErr(t){ upPrev.style.display='block'; upPrev.className='up-preview err'; upPrev.textContent=t; }
+
+/* --- pembaca data.js: jalankan isi file, ambil semua konstanta yang ada --- */
+function parseDataJsText(text){
+  const keys = ['META','neraca','indukNer','koorNer','sistem','bulan','nko','warnaUlp','ulpData','kpiData','mainKPIs'];
+  const tail = '\nreturn {' + keys.map(k=>`${k}: (typeof ${k}!=='undefined') ? ${k} : undefined`).join(',') + '};';
+  return new Function('"use strict";' + text + tail)();
+}
+
+/* --- pembaca CSV: deteksi pemisah (; , tab), dukung tanda kutip & desimal koma --- */
+function parseCSV(text){
+  text = text.replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n').trim();
+  const lines = text.split('\n').filter(l=>l.trim()!=='');
+  if(lines.length < 2) throw new Error('CSV kosong atau hanya berisi header');
+  const head = lines[0];
+  const delim = [';',',','\t'].map(d=>({d, n:head.split(d).length}))
+    .sort((a,b)=>b.n-a.n)[0].d;
+  const parseLine = line=>{
+    const out = []; let cur = '', q = false;
+    for(let i=0;i<line.length;i++){
+      const ch = line[i];
+      if(q){ if(ch==='"'){ if(line[i+1]==='"'){cur+='"';i++;} else q=false; } else cur+=ch; }
+      else if(ch==='"') q = true;
+      else if(ch===delim){ out.push(cur); cur=''; }
+      else cur+=ch;
+    }
+    out.push(cur);
+    return out.map(s=>s.trim());
+  };
+  const headers = parseLine(lines[0]).map(h=>h.toLowerCase());
+  const rows = lines.slice(1).map(parseLine)
+    .map(cells=>Object.fromEntries(headers.map((h,i)=>[h, cells[i]??''])));
+  rows.headers = headers;
+  return rows;
+}
+function csvNum(s){
+  s = String(s??'').trim();
+  if(s==='') return null;
+  if(s.includes(',') && s.includes('.')) s = s.replace(/\./g,'').replace(',','.');
+  else if(s.includes(',')) s = s.replace(',','.');
+  const v = parseFloat(s);
+  return isNaN(v) ? null : v;
+}
+
+upFile.addEventListener('change', ()=>{
+  const file = upFile.files[0]; if(!file) return;
+  const rd = new FileReader();
+  rd.onload = ()=>{
+    try{
+      const text = rd.result, nama = file.name.toLowerCase(), mode = upMode();
+      if(nama.endsWith('.csv')){
+        if(mode==='semua') throw new Error('CSV hanya untuk bagian tertentu — pilih Kinerja bulanan / Data pelanggan / Sistem kelistrikan.');
+        const rows = parseCSV(text);
+        upPending = {mode, source:'csv', rows};
+        prevOk(`✓ CSV terbaca: ${rows.length} baris data\nKolom: ${rows.headers.join(' · ')}\nKlik «Terapkan ke data» untuk melanjutkan.`);
+      } else {
+        const obj = nama.endsWith('.json') ? JSON.parse(text) : parseDataJsText(text);
+        const ada = ['META','neraca','sistem','bulan','nko','ulpData','kpiData','mainKPIs'].filter(k=>obj[k]!==undefined);
+        if(!ada.length) throw new Error('tidak ada bagian data yang dikenali dalam file ini.');
+        upPending = {mode, source:'full', obj};
+        prevOk(`✓ File terbaca. Bagian tersedia: ${ada.join(', ')}${obj.bulan?`\nBulan: ${obj.bulan.join(', ')}`:''}\nBagian yang akan diterapkan: ${mode.toUpperCase()}. Klik «Terapkan ke data».`);
+      }
+      upApply.disabled = false;
+    }catch(err){
+      upPending = null; upApply.disabled = true;
+      prevErr('✕ Gagal membaca file: ' + err.message);
+    }
+  };
+  rd.readAsText(file, 'UTF-8');
+});
+
+/* --- terapkan dari data.js / JSON --- */
+function applyFull(obj, mode){
+  const bagian = {
+    semua:     ['META','neraca','indukNer','koorNer','sistem','bulan','nko','warnaUlp','ulpData','kpiData','mainKPIs'],
+    kinerja:   ['bulan','nko','warnaUlp','ulpData','kpiData','mainKPIs'],
+    pelanggan: ['neraca','indukNer','koorNer'],
+    sistem:    ['sistem']
+  }[mode];
+  const target = {META,neraca,indukNer,koorNer,sistem,bulan,nko,warnaUlp,ulpData,kpiData,mainKPIs};
+  const applied = [];
+  bagian.forEach(k=>{
+    if(obj[k]===undefined) return;
+    if(Array.isArray(target[k])) replaceArr(target[k], obj[k]); else replaceObj(target[k], obj[k]);
+    applied.push(k);
+  });
+  if(!applied.length) throw new Error('file tidak memuat bagian «'+mode+'».');
+  return 'bagian diperbarui: ' + applied.join(', ');
+}
+
+/* --- terapkan dari CSV per bagian --- */
+function wajibKolom(rows, req){
+  const hilang = req.filter(c=>!rows.headers.includes(c));
+  if(hilang.length) throw new Error('kolom wajib tidak ditemukan: ' + hilang.join(', ') + ' (unduh template CSV untuk format yang benar)');
+}
+function applyCsvPelanggan(rows){
+  wajibKolom(rows, ['unit','jenis','pelanggan','daya_va','penjualan_kwh']);
+  const nN = [], nI = {}, nK = {};
+  rows.forEach(r=>{
+    if(!r.unit) return;
+    const t = (r.jenis||'').toUpperCase()==='ULP' ? 'ULP' : 'KP';
+    nN.push({n:r.unit, t, p:csvNum(r.pelanggan)??0, d:csvNum(r.daya_va)??0, k:csvNum(r.penjualan_kwh)??0});
+    if(t==='KP' && r.induk) nI[r.unit] = r.induk;
+    const la = csvNum(r.lat), ln = csvNum(r.lng);
+    if(la!==null && ln!==null) nK[r.unit] = [la,ln];
+    else if(koorNer[r.unit]) nK[r.unit] = koorNer[r.unit]; /* pertahankan koordinat lama */
+  });
+  if(!nN.length) throw new Error('tidak ada baris data unit.');
+  replaceArr(neraca, nN); replaceObj(indukNer, nI); replaceObj(koorNer, nK);
+  return nN.length + ' unit pelanggan diperbarui';
+}
+function applyCsvSistem(rows){
+  wajibKolom(rows, ['sistem','ulp','status','jam','dp_mw','dm_mw','bp_mw']);
+  const arr = [];
+  rows.forEach(r=>{
+    if(!r.sistem) return;
+    const dm = csvNum(r.dm_mw)??0, bp = csvNum(r.bp_mw)??0;
+    const st = (r.status||'').toLowerCase().startsWith('s') ? 'Siaga' : 'Aman';
+    const la = csvNum(r.lat), ln = csvNum(r.lng);
+    const lama = sistem.find(s=>s.n===r.sistem);
+    arr.push({n:r.sistem, u:(r.ulp||'').toUpperCase(), st, j:csvNum(r.jam)??24,
+      dp:csvNum(r.dp_mw)??0, dm, bp, cad:+(dm-bp).toFixed(2),
+      c:(la!==null&&ln!==null) ? [la,ln] : (lama ? lama.c : [-3.3,129.0])});
+  });
+  if(!arr.length) throw new Error('tidak ada baris data sistem.');
+  replaceArr(sistem, arr);
+  return arr.length + ' sistem kelistrikan diperbarui';
+}
+function applyCsvKinerja(rows){
+  wajibKolom(rows, ['unit']);
+  const mCols = rows.headers.filter(h=>h!=='unit');
+  const mNames = mCols.map(h=>{
+    const f = urutanBulan.find(b=>b.toLowerCase()===h);
+    if(!f) throw new Error('kolom bulan tidak dikenal: «'+h+'» (gunakan Jan, Feb, Mar, …)');
+    return f;
+  });
+  if(mNames.length < bulan.length)
+    throw new Error(`CSV memuat ${mNames.length} bulan, data saat ini sudah ${bulan.length} bulan — CSV tidak boleh lebih pendek.`);
+  let nUnit = 0;
+  rows.forEach(r=>{
+    if(!r.unit || !nko[r.unit]) return;
+    nko[r.unit].d = mCols.map(c=>csvNum(r[c]));
+    nUnit++;
+  });
+  if(!nUnit) throw new Error('tidak ada nama unit yang cocok — gunakan nama persis, mis. «UP3 Masohi», «ULP Bula».');
+  replaceArr(bulan, mNames);
+  /* perpanjang seluruh array KPI ke jumlah bulan baru & sinkronkan NKO */
+  Object.keys(ulpData).forEach(k=>{
+    const seri = nko[ulpData[k].label];
+    if(seri) ulpData[k].nko = seri.d.slice();
+    while(ulpData[k].nko.length<bulan.length) ulpData[k].nko.push(null);
+    (ulpData[k].kpi||[]).forEach(i=>['target','realisasi','pencapaian','nilai100'].forEach(f=>{ while(i[f].length<bulan.length) i[f].push(null); }));
+  });
+  kpiData.forEach(i=>['target','realisasi','pencapaian','nilai100'].forEach(f=>{ while(i[f].length<bulan.length) i[f].push(null); }));
+  mainKPIs.forEach(k=>{ while(k.nilai100.length<bulan.length) k.nilai100.push(null); });
+  return `NKO ${nUnit} unit × ${mNames.length} bulan diperbarui (nilai KPI bulan baru diisi via tab «KPI unit»)`;
+}
+
+upApply.onclick = ()=>{
+  if(!upPending) return;
+  try{
+    const hasil = upPending.source==='full'
+      ? applyFull(upPending.obj, upPending.mode)
+      : upPending.mode==='pelanggan' ? applyCsvPelanggan(upPending.rows)
+      : upPending.mode==='sistem'    ? applyCsvSistem(upPending.rows)
+      : applyCsvKinerja(upPending.rows);
+    /* segarkan seluruh tampilan admin */
+    $('#mTahun').value = META.tahun; $('#mPosisi').value = META.posisiData; $('#mMonitor').value = META.monitoringPembangkit;
+    renderNer(); renderSis(); renderNko(); loadJson();
+    const errs = periksa();
+    prevOk('✓ Diterapkan: ' + hasil + '.\nLangkah terakhir: klik ⬇ UNDUH data.js lalu ganti file js/data.js.');
+    msg(errs.length ? '⚠ Upload diterapkan, tetapi ada '+errs.length+' hal perlu dicek — klik PERIKSA DATA.' : '✓ Upload diterapkan ('+hasil+'). Data konsisten.', errs.length?'err':'ok');
+    upPending = null; upApply.disabled = true; upFile.value = '';
+  }catch(err){ prevErr('✕ Gagal menerapkan: ' + err.message); }
+};
+
+/* --- template CSV (dari data aktif — sekaligus berfungsi sebagai ekspor) --- */
+function dlText(nama, isi, tipe){
+  const blob = new Blob([isi], {type:tipe});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = nama; a.click();
+  URL.revokeObjectURL(a.href);
+}
+const csvQ = s => { s = String(s??''); return /[;"\n]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s; };
+const csvN = v => (v===null||v===undefined||v==='') ? '' : String(v).replace('.',',');
+function dlCsv(nama, baris){ dlText(nama, '\uFEFF' + baris.join('\r\n'), 'text/csv;charset=utf-8'); }
+$('#tplNer').onclick = ()=>dlCsv('template_pelanggan.csv', [
+  'unit;jenis;induk;pelanggan;daya_va;penjualan_kwh;lat;lng',
+  ...neraca.map(u=>{
+    const c = koorNer[u.n]||['',''];
+    return [csvQ(u.n),u.t,csvQ(indukNer[u.n]||''),u.p,u.d,u.k,csvN(c[0]),csvN(c[1])].join(';');
+  })]);
+$('#tplSis').onclick = ()=>dlCsv('template_sistem.csv', [
+  'sistem;ulp;status;jam;dp_mw;dm_mw;bp_mw;lat;lng',
+  ...sistem.map(s=>[csvQ(s.n),s.u,s.st,s.j,csvN(s.dp),csvN(s.dm),csvN(s.bp),csvN(s.c[0]),csvN(s.c[1])].join(';'))]);
+$('#tplNko').onclick = ()=>dlCsv('template_kinerja_nko.csv', [
+  'unit;' + bulan.join(';'),
+  ...Object.entries(nko).map(([k,v])=>[csvQ(k),...v.d.map(csvN)].join(';'))]);
 
 /* ================= VALIDASI ================= */
 function periksa(){

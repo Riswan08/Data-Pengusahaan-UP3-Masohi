@@ -37,6 +37,21 @@ Pengusahaan/
 
 ## Update data bulanan (tanpa menyentuh kode)
 
+### Cara cepat: upload file
+
+1. Buka **halaman admin** (`admin/index.html`) → tab **⬆ Upload data**.
+2. Pilih bagian yang mau diperbarui: **Semua bagian**, **Kinerja bulanan** (NKO & KPI),
+   **Data pelanggan** (neraca), atau **Sistem kelistrikan**.
+3. Pilih file: `data.js`/JSON (hasil unduhan halaman ini) untuk semua bagian, atau
+   **CSV dari Excel** untuk Kinerja/Pelanggan/Sistem — unduh dulu **template CSV**
+   agar nama kolom sesuai (pemisah `;` atau `,`, desimal koma didukung).
+   Pada CSV kinerja, menambah kolom bulan baru (mis. `Jun`) otomatis memperpanjang
+   seluruh struktur data.
+4. Klik **✓ Terapkan ke data** → periksa ringkasan → **⬇ Unduh data.js** → ganti
+   file `js/data.js`.
+
+### Cara manual: sunting di halaman admin
+
 1. Buka **halaman admin** (`admin/index.html`).
 2. Sunting data pada tab yang tersedia:
    - **Metadata** — posisi data (mis. "Juni 2026") & tanggal monitoring; otomatis
@@ -56,7 +71,9 @@ manual bila diperlukan.
 
 ## Fitur
 
-- Mode terang/gelap (pilihan tersimpan di browser), tombol **⎙ Cetak / simpan PDF**
+- Mode terang/gelap (pilihan tersimpan di browser)
+- **⎙ Cetak / simpan PDF dengan pilihan bab** — cetak semua, hanya kinerja (bab 08–09),
+  atau kombinasi bab mana pun
 - Sidebar navigasi dengan penanda bab aktif mengikuti posisi gulir (scroll-spy)
 - Peta interaktif unit & sistem pembangkitan (Leaflet + OpenStreetMap)
 - Grafik interaktif (Chart.js), tabel dengan pencarian & filter

@@ -221,8 +221,35 @@ tr.kgrp td{background:var(--biru-soft);font-weight:600}
 #toTop.show{opacity:1;pointer-events:auto}
 #toTop:hover{border-color:var(--kuning);color:var(--kuning)}
 
+/* ===== DIALOG CETAK ===== */
+.modal-back{display:none;position:fixed;inset:0;z-index:980;background:rgba(10,18,32,.55);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:20px}
+.modal-back.open{display:flex}
+.modal{background:var(--card);border:1px solid var(--line2);border-radius:16px;box-shadow:0 18px 60px rgba(0,0,0,.35);max-width:520px;width:100%;max-height:86vh;overflow-y:auto;padding:20px 22px}
+.pm-head{display:flex;justify-content:space-between;align-items:center}
+.pm-head h3{font-size:16px}
+.pm-x{border:none;background:transparent;color:var(--faint);font-size:15px;cursor:pointer;padding:4px 8px;border-radius:8px}
+.pm-x:hover{background:var(--merah-soft);color:var(--merah)}
+.pm-desc{font-size:13px;color:var(--muted);margin:8px 0 10px}
+.pm-presets{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.pm-presets button{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.06em;border:1px solid var(--line2);background:var(--card2);color:var(--muted);border-radius:999px;padding:4px 11px;cursor:pointer}
+.pm-presets button:hover{border-color:var(--kuning);color:var(--ink)}
+.pm-list{display:flex;flex-direction:column;gap:2px}
+.pm-item{display:flex;align-items:center;gap:10px;font-size:13.5px;padding:7px 10px;border-radius:9px;cursor:pointer}
+.pm-item:hover{background:var(--biru-soft)}
+.pm-item input{accent-color:var(--biru);width:15px;height:15px;cursor:pointer;flex:none}
+.pm-note{font-size:11.5px;color:var(--muted);margin:12px 0 0;background:var(--kuning-soft);border:1px solid var(--kuning);border-radius:8px;padding:7px 10px}
+.pm-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+.pm-actions button{font-family:'IBM Plex Mono';font-size:11px;border-radius:999px;padding:7px 16px;cursor:pointer}
+.pm-batal{border:1px solid var(--line2);background:var(--card);color:var(--muted)}
+.pm-batal:hover{color:var(--ink);border-color:var(--kuning)}
+.pm-go{border:1px solid var(--kuning-raw);background:var(--kuning-raw);color:#10233F;font-weight:600}
+.pm-go:hover{filter:brightness(1.05)}
+.pm-go:disabled{opacity:.45;cursor:not-allowed}
+
 /* ===== CETAK / PDF ===== */
 @media print{
+  .modal-back{display:none !important}
+  .no-print{display:none !important}
   nav,.sidebar,#toTop,.seg,.month-seg,input.search{display:none !important}
   body.sb-open{padding-left:0}
   body{font-size:12px}

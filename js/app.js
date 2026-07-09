@@ -236,8 +236,56 @@ try{
 }catch(e){}
 applyTheme(temaAwal);
 
-/* ================= CETAK / PDF ================= */
-document.getElementById('printBtn').onclick = ()=>window.print();
+/* ================= CETAK / PDF (dengan pilihan bab) ================= */
+const printSections = [
+  {id:'s1', label:'01 · Identitas unit & diagram satu garis'},
+  {id:'s3', label:'02 · Organisasi & SDM'},
+  {id:'s2', label:'03 · Wilayah kerja & elektrifikasi'},
+  {id:'s4', label:'04 · Data pengusahaan pokok'},
+  {id:'s5', label:'05 · Neraca pelanggan & penjualan'},
+  {id:'s6', label:'06 · Aset jaringan distribusi'},
+  {id:'s7', label:'07 · Sistem pembangkitan & kelistrikan'},
+  {id:'s8', label:'08 · Realisasi kinerja'},
+  {id:'s9', label:'09 · Dashboard kinerja per unit'}
+];
+const printModal = document.getElementById('printModal');
+const pmList = document.getElementById('pmList');
+pmList.innerHTML = printSections.map(s =>
+  `<label class="pm-item"><input type="checkbox" value="${s.id}" checked> ${s.label}</label>`).join('');
+const pmBoxes = () => [...pmList.querySelectorAll('input')];
+const pmGo = document.getElementById('pmCetak');
+function pmSync(){ pmGo.disabled = !pmBoxes().some(b=>b.checked); }
+pmList.addEventListener('change', pmSync);
+document.querySelector('.pm-presets').addEventListener('click', e=>{
+  const p = e.target.dataset.p; if(!p) return;
+  pmBoxes().forEach(b=>{
+    b.checked = p==='semua' ? true : p==='kinerja' ? (b.value==='s8'||b.value==='s9') : false;
+  });
+  pmSync();
+});
+const pmOpen = ()=>printModal.classList.add('open');
+const pmClose = ()=>printModal.classList.remove('open');
+document.getElementById('printBtn').onclick = pmOpen;
+document.getElementById('pmBatal').onclick = pmClose;
+document.getElementById('pmClose').onclick = pmClose;
+printModal.addEventListener('click', e=>{ if(e.target===printModal) pmClose(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') pmClose(); });
+pmGo.onclick = ()=>{
+  const pilih = new Set(pmBoxes().filter(b=>b.checked).map(b=>b.value));
+  if(!pilih.size) return;
+  printSections.forEach(s=>{
+    const el = document.getElementById(s.id);
+    if(el) el.classList.toggle('no-print', !pilih.has(s.id));
+  });
+  pmClose();
+  setTimeout(()=>{
+    window.print();
+    printSections.forEach(s=>{
+      const el = document.getElementById(s.id);
+      if(el) el.classList.remove('no-print');
+    });
+  }, 80);
+};
 
 /* ================= KEMBALI KE ATAS ================= */
 const toTop = document.getElementById('toTop');
