@@ -64,7 +64,7 @@ h1 .thin{color:var(--muted);font-weight:500}
 .sld text{font-family:'IBM Plex Mono',monospace}
 
 /* ===== SECTIONS ===== */
-section{position:relative;padding:76px 0 6px}
+section.wrap{position:relative;padding:76px 22px 6px}
 section::before{content:'';position:absolute;top:34px;left:22px;right:22px;border-top:2px solid var(--line2)}
 .sec-head{display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:8px}
 .sec-no{font-family:'IBM Plex Mono';font-size:12px;font-weight:500;color:#10233F;background:var(--kuning-raw);letter-spacing:.14em;padding:4px 12px;border-radius:999px;flex:none}
@@ -249,19 +249,31 @@ tr.kgrp td{background:var(--biru-soft);font-weight:600}
 
 /* ===== CETAK / PDF ===== */
 @media print{
+  @page{margin:10mm 9mm}
   .modal-back{display:none !important}
   .no-print{display:none !important}
   nav,.sidebar,#toTop,.seg,.month-seg,input.search{display:none !important}
   body.sb-open{padding-left:0}
-  body{font-size:12px}
-  section{padding:28px 0 4px}
-  .card,.chart-card,.tbl-wrap,.org-node,.speedo-card,.ph-item,.perhatian-card{break-inside:avoid;box-shadow:none}
+  body{font-size:11.5px}
+  /* rapatkan jarak agar halaman terisi penuh — bab mengalir menyambung, tanpa halaman kosong */
+  header{padding:8px 0 0}
+  h1{font-size:26px}
+  .lede{margin:8px 0 0;font-size:13px}
+  .hero-tags{margin:10px 0 0}
+  .sld{margin:14px 0 0;padding:12px 12px 6px}
+  section.wrap{padding:22px 22px 2px}
+  section::before{top:8px}
+  .sec-desc{margin:8px 0 12px}
+  .grid{gap:9px}
+  .chart-card,.tbl-wrap{margin:9px 0}
+  .card{padding:12px 14px 11px}
+  td{padding:6px 12px}
+  footer{margin-top:18px;padding:12px 0 6px}
+  .card,.chart-card,.tbl-wrap,.org-node,.speedo-card,.ph-item{break-inside:avoid;box-shadow:none}
   .sld{box-shadow:none;overflow:visible}
   .sld svg{min-width:0}
-  #peta{height:340px}
+  #peta{height:320px}
   .leaflet-control-zoom{display:none}
   a{text-decoration:none;color:inherit}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  section:not(.no-print){break-before:page}   /* tiap bab mulai di halaman baru */
-  section::before{display:none}
 }
