@@ -217,6 +217,43 @@ tr.kgrp td{background:var(--biru-soft);font-weight:600}
 
 #s9 .note-up3{font-size:12.5px;color:var(--muted);background:var(--kuning-soft);border:1px solid var(--kuning);border-radius:10px;padding:10px 14px;margin:0 0 14px;display:none}
 
+/* ===== LAMPU GANTUNG (mode terang/gelap) ===== */
+.lampu{background:transparent;border:none;cursor:pointer;padding:0 2px;width:40px;height:40px;position:relative;overflow:visible}
+.lampu svg{overflow:visible;display:block;margin:-4px auto 0}
+.lp-kabel{stroke:var(--faint);stroke-width:2;stroke-linecap:round}
+.lp-kap{fill:#28456E}
+html.dark .lp-kap{fill:#4A5E80}
+.lp-bohlam{fill:#F5B800;transition:fill .35s;filter:drop-shadow(0 0 7px rgba(245,184,0,.95))}
+html.dark .lp-bohlam{fill:#39435A;filter:none}
+.lp-sinar line{stroke:#F5B800;stroke-width:2;stroke-linecap:round;opacity:.9;transition:opacity .35s}
+html.dark .lp-sinar line{opacity:0}
+.lp-tali{stroke:var(--faint);stroke-width:1.6}
+.lp-knob{fill:var(--faint)}
+.lampu:hover .lp-knob{fill:var(--kuning)}
+.lp-tarik{transition:transform .3s cubic-bezier(.25,1.7,.4,1)}
+.lampu.menarik .lp-tarik{transform:translateY(11px);transition:transform .14s ease-in}
+@keyframes lampGoyang{0%{transform:rotate(0)}28%{transform:rotate(5deg)}58%{transform:rotate(-3.5deg)}82%{transform:rotate(1.5deg)}100%{transform:rotate(0)}}
+.lampu.goyang .lp-ayun{animation:lampGoyang .95s ease-in-out;transform-origin:22px 0}
+
+/* ===== ANIMASI MASUK & HIDUP ===== */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s cubic-bezier(.2,.75,.25,1)}
+.rv.rv-in{opacity:1;transform:none}
+.card{transition:transform .22s ease,box-shadow .22s ease,opacity .65s ease}
+.card.rv-in:hover{transform:translateY(-3px);box-shadow:0 2px 4px rgba(16,35,63,.06),0 10px 28px rgba(16,35,63,.10)}
+html.dark .card.rv-in:hover{box-shadow:0 2px 4px rgba(0,0,0,.35),0 10px 28px rgba(0,0,0,.38)}
+.sld .flow{animation:alirDaya 1.1s linear infinite}
+@keyframes alirDaya{to{stroke-dashoffset:-22px}}
+@keyframes isiBar{from{width:0}}
+.ph-fill{animation:isiBar .9s cubic-bezier(.2,.8,.25,1)}
+
+@media (prefers-reduced-motion: reduce){
+  .rv{opacity:1;transform:none;transition:none}
+  .sld .flow{display:none}
+  .ph-fill{animation:none}
+  .lp-tarik{transition:none}
+  .lampu.goyang .lp-ayun{animation:none}
+}
+
 /* ===== TOMBOL KEMBALI KE ATAS ===== */
 #toTop{position:fixed;right:20px;bottom:20px;z-index:940;width:42px;height:42px;border-radius:50%;border:1px solid var(--line2);background:var(--card);color:var(--ink);font-size:18px;cursor:pointer;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .25s}
 #toTop.show{opacity:1;pointer-events:auto}
@@ -276,4 +313,7 @@ tr.kgrp td{background:var(--biru-soft);font-weight:600}
   .leaflet-control-zoom{display:none}
   a{text-decoration:none;color:inherit}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .rv{opacity:1 !important;transform:none !important;transition:none !important}
+  .sld .flow{display:none}
+  .ph-fill{animation:none}
 }

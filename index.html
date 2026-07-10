@@ -22,7 +22,22 @@
     <div class="nav-brand"><em>⚡</em> PROFIL PENGUSAHAAN · UP3 MASOHI</div>
     <div style="flex:1"></div>
     <button id="printBtn" title="Cetak / simpan sebagai PDF">⎙ CETAK</button>
-    <button id="themeBtn">☾ GELAP</button>
+    <button id="themeBtn" class="lampu" aria-label="Tarik tali lampu untuk ganti mode terang/gelap" title="Tarik talinya!">
+      <svg viewBox="0 0 44 64" width="34" height="50" aria-hidden="true">
+        <g class="lp-ayun">
+          <line x1="22" y1="0" x2="22" y2="13" class="lp-kabel"/>
+          <path d="M9,25 a13,13 0 0 1 26,0 z" class="lp-kap"/>
+          <g class="lp-sinar">
+            <line x1="10" y1="34" x2="6" y2="40"/><line x1="22" y1="37" x2="22" y2="44"/><line x1="34" y1="34" x2="38" y2="40"/>
+          </g>
+          <circle cx="22" cy="30" r="6.5" class="lp-bohlam"/>
+          <g class="lp-tarik">
+            <line x1="32" y1="24" x2="32" y2="42" class="lp-tali"/>
+            <circle cx="32" cy="45" r="3" class="lp-knob"/>
+          </g>
+        </g>
+      </svg>
+    </button>
   </div>
 </nav>
 

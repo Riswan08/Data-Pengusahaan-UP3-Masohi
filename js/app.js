@@ -23,17 +23,25 @@ if(typeof META !== 'undefined'){
 const themeBtn = document.getElementById('themeBtn');
 function applyTheme(dark){
   document.documentElement.classList.toggle('dark', dark);
-  themeBtn.textContent = dark ? '☀ TERANG' : '☾ GELAP';
+  themeBtn.title = dark ? 'Tarik talinya — nyalakan lampu (mode terang)' : 'Tarik talinya — matikan lampu (mode gelap)';
   Chart.defaults.color = dark ? '#9AA9C2' : '#54647E';
   Chart.defaults.borderColor = dark ? 'rgba(155,180,220,.14)' : 'rgba(16,35,63,.1)';
   Object.values(charts).forEach(ch=>ch && ch.update());
 }
 const charts = {};
+/* lampu gantung: tarik tali → lampu nyala = terang, mati = gelap */
 themeBtn.onclick = ()=>{
-  const dark = !document.documentElement.classList.contains('dark');
-  applyTheme(dark);
-  try{ localStorage.setItem('tema', dark ? 'gelap' : 'terang'); }catch(e){}
-  if(window.renderUnit9) renderUnit9();
+  if(themeBtn.classList.contains('menarik')) return;
+  themeBtn.classList.add('menarik');
+  setTimeout(()=>{
+    const dark = !document.documentElement.classList.contains('dark');
+    applyTheme(dark);
+    try{ localStorage.setItem('tema', dark ? 'gelap' : 'terang'); }catch(e){}
+    if(window.renderUnit9) renderUnit9();
+    themeBtn.classList.remove('menarik');
+    themeBtn.classList.add('goyang');
+    setTimeout(()=>themeBtn.classList.remove('goyang'), 950);
+  }, 150);
 };
 
 /* ================= NERACA ================= */
@@ -318,3 +326,62 @@ Object.keys(spyMap).forEach(id=>{ const el = document.getElementById(id); if(el)
 spyLinks.forEach(a=>a.addEventListener('click', ()=>{
   if(window.innerWidth<=1100) document.body.classList.remove('sb-open');
 }));
+
+/* ================= ANIMASI ================= */
+const kurangiGerak = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* aliran daya pada diagram satu garis: duplikat garis penghubung sebagai titik berjalan */
+(function(){
+  if(kurangiGerak) return;
+  const g = document.querySelector('.sld svg g[stroke-linecap]');
+  if(!g) return;
+  [...g.querySelectorAll('line')].forEach(l=>{
+    const f = l.cloneNode();
+    f.setAttribute('class','flow');
+    f.setAttribute('stroke','rgba(255,255,255,.9)');
+    f.setAttribute('stroke-width','2.6');
+    f.setAttribute('stroke-dasharray','5 17');
+    g.appendChild(f);
+  });
+})();
+
+/* angka kartu menghitung naik saat pertama terlihat */
+function hitungAngka(scope){
+  const val = scope.querySelector && scope.querySelector('.val');
+  if(!val || val.dataset.dihitung) return;
+  const node = val.childNodes[0];
+  if(!node || node.nodeType !== 3) return;
+  const teks = node.textContent.trim();
+  const m = teks.match(/^-?[\d.]+(,\d+)?$/);
+  if(!m) return;
+  const des = m[1] ? m[1].length - 1 : 0;
+  const target = parseFloat(teks.replace(/\./g,'').replace(',','.'));
+  if(isNaN(target)) return;
+  val.dataset.dihitung = '1';
+  const t0 = performance.now(), dur = 1100;
+  requestAnimationFrame(function tik(t){
+    const p = Math.min((t - t0) / dur, 1);
+    const e = 1 - Math.pow(1 - p, 3);
+    node.textContent = (target * e).toLocaleString('id-ID', {minimumFractionDigits:des, maximumFractionDigits:des});
+    if(p < 1) requestAnimationFrame(tik);
+  });
+}
+
+/* elemen muncul lembut & bertingkat saat digulir (scroll reveal) */
+(function(){
+  if(kurangiGerak) return;
+  const targetRv = document.querySelectorAll('.card,.chart-card,.tbl-wrap,.org-node,.relay .official,.sld,.perhatian-card');
+  targetRv.forEach(el=>el.classList.add('rv'));
+  const obs = new IntersectionObserver(ents=>{
+    ents.forEach(en=>{
+      if(!en.isIntersecting) return;
+      const el = en.target;
+      const antre = [...el.parentElement.children].filter(x=>x.classList.contains('rv') && !x.classList.contains('rv-in'));
+      el.style.transitionDelay = (Math.max(antre.indexOf(el), 0) % 6) * 70 + 'ms';
+      el.classList.add('rv-in');
+      hitungAngka(el);
+      obs.unobserve(el);
+    });
+  }, {rootMargin:'0px 0px -8% 0px'});
+  targetRv.forEach(el=>obs.observe(el));
+})();
