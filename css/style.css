@@ -43,8 +43,8 @@ nav{position:sticky;top:0;z-index:900;background:var(--nav-bg);backdrop-filter:b
 .nav-links{display:flex;gap:2px;flex-wrap:wrap;flex:1}
 .nav-links a{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.06em;color:var(--muted);text-decoration:none;padding:5px 9px;border-radius:8px}
 .nav-links a:hover{background:var(--biru-soft);color:var(--ink)}
-#themeBtn,#printBtn{font-family:'IBM Plex Mono';font-size:11px;border:1px solid var(--line2);background:var(--card);color:var(--ink);border-radius:999px;padding:5px 13px;cursor:pointer}
-#themeBtn:hover,#printBtn:hover{border-color:var(--kuning)}
+#printBtn{font-family:'IBM Plex Mono';font-size:11px;border:1px solid var(--line2);background:var(--card);color:var(--ink);border-radius:999px;padding:5px 13px;cursor:pointer}
+#printBtn:hover{border-color:var(--kuning)}
 
 /* ===== HERO ===== */
 header{padding:52px 0 8px}
@@ -218,8 +218,9 @@ tr.kgrp td{background:var(--biru-soft);font-weight:600}
 #s9 .note-up3{font-size:12.5px;color:var(--muted);background:var(--kuning-soft);border:1px solid var(--kuning);border-radius:10px;padding:10px 14px;margin:0 0 14px;display:none}
 
 /* ===== LAMPU GANTUNG (mode terang/gelap) ===== */
-.lampu{background:transparent;border:none;cursor:pointer;padding:0 2px;width:40px;height:40px;position:relative;overflow:visible}
-.lampu svg{overflow:visible;display:block;margin:-4px auto 0}
+#themeBtn.lampu{background:transparent;border:none;border-radius:0;padding:0;width:44px;height:40px;position:relative;overflow:visible;cursor:grab;touch-action:none;-webkit-tap-highlight-color:transparent}
+#themeBtn.lampu:active{cursor:grabbing}
+.lampu svg{overflow:visible;display:block;margin:-10px auto 0}
 .lp-kabel{stroke:var(--faint);stroke-width:2;stroke-linecap:round}
 .lp-kap{fill:#28456E}
 html.dark .lp-kap{fill:#4A5E80}
@@ -230,7 +231,7 @@ html.dark .lp-sinar line{opacity:0}
 .lp-tali{stroke:var(--faint);stroke-width:1.6}
 .lp-knob{fill:var(--faint)}
 .lampu:hover .lp-knob{fill:var(--kuning)}
-.lp-tarik{transition:transform .3s cubic-bezier(.25,1.7,.4,1)}
+.lp-tarik{transition:transform .3s cubic-bezier(.25,1.7,.4,1);transform-origin:32px 24px}
 .lampu.menarik .lp-tarik{transform:translateY(11px);transition:transform .14s ease-in}
 @keyframes lampGoyang{0%{transform:rotate(0)}28%{transform:rotate(5deg)}58%{transform:rotate(-3.5deg)}82%{transform:rotate(1.5deg)}100%{transform:rotate(0)}}
 .lampu.goyang .lp-ayun{animation:lampGoyang .95s ease-in-out;transform-origin:22px 0}

@@ -29,20 +29,50 @@ function applyTheme(dark){
   Object.values(charts).forEach(ch=>ch && ch.update());
 }
 const charts = {};
-/* lampu gantung: tarik tali → lampu nyala = terang, mati = gelap */
-themeBtn.onclick = ()=>{
-  if(themeBtn.classList.contains('menarik')) return;
-  themeBtn.classList.add('menarik');
-  setTimeout(()=>{
+/* lampu gantung: tali bisa ditarik mengikuti kursor / sentuhan.
+   Tarik melewati ambang lalu lepas → lampu nyala (terang) / padam (gelap).
+   Tap singkat tetap berfungsi sebagai tarikan cepat. */
+(function(){
+  const tali = themeBtn.querySelector('.lp-tarik');
+  const AMBANG = 14, MAKS_Y = 34, MAKS_X = 14;
+  let aktif = false, x0 = 0, y0 = 0, dy = 0;
+  function gantiTema(){
     const dark = !document.documentElement.classList.contains('dark');
     applyTheme(dark);
     try{ localStorage.setItem('tema', dark ? 'gelap' : 'terang'); }catch(e){}
     if(window.renderUnit9) renderUnit9();
-    themeBtn.classList.remove('menarik');
     themeBtn.classList.add('goyang');
     setTimeout(()=>themeBtn.classList.remove('goyang'), 950);
-  }, 150);
-};
+  }
+  themeBtn.addEventListener('pointerdown', e=>{
+    aktif = true; x0 = e.clientX; y0 = e.clientY; dy = 0;
+    tali.style.transition = 'none';
+    themeBtn.setPointerCapture(e.pointerId);
+    e.preventDefault();
+  });
+  themeBtn.addEventListener('pointermove', e=>{
+    if(!aktif) return;
+    dy = Math.max(0, Math.min(e.clientY - y0, MAKS_Y));
+    const dx = Math.max(-MAKS_X, Math.min(e.clientX - x0, MAKS_X));
+    tali.style.transform = `rotate(${(dx*0.8).toFixed(1)}deg) translateY(${dy.toFixed(1)}px)`;
+    const knob = themeBtn.querySelector('.lp-knob');
+    knob.style.transform = dy >= AMBANG ? 'scale(1.25)' : '';
+  });
+  function lepas(){
+    if(!aktif) return;
+    aktif = false;
+    tali.style.transition = 'transform .5s cubic-bezier(.2,2.4,.35,1)'; /* pantulan kenyal */
+    tali.style.transform = '';
+    themeBtn.querySelector('.lp-knob').style.transform = '';
+    if(dy >= AMBANG){ gantiTema(); }
+    else if(dy < 4){ /* tap singkat = tarikan cepat otomatis */
+      themeBtn.classList.add('menarik');
+      setTimeout(()=>{ gantiTema(); themeBtn.classList.remove('menarik'); }, 150);
+    }
+  }
+  themeBtn.addEventListener('pointerup', lepas);
+  themeBtn.addEventListener('pointercancel', lepas);
+})();
 
 /* ================= NERACA ================= */
 const tot = neraca.reduce((a,u)=>({p:a.p+u.p, d:a.d+u.d, k:a.k+u.k}), {p:0,d:0,k:0});
