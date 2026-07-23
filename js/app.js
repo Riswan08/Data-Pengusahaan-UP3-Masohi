@@ -288,7 +288,8 @@ const printSections = [
   {id:'s6', label:'06 · Aset jaringan distribusi'},
   {id:'s7', label:'07 · Sistem pembangkitan & kelistrikan'},
   {id:'s8', label:'08 · Realisasi kinerja'},
-  {id:'s9', label:'09 · Dashboard kinerja per unit'}
+  {id:'s9', label:'09 · Dashboard kinerja per unit'},
+  {id:'s10', label:'10 · Anggaran investasi'}
 ];
 const printModal = document.getElementById('printModal');
 const pmList = document.getElementById('pmList');

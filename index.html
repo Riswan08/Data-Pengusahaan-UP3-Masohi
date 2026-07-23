@@ -56,6 +56,7 @@
     <a class="sb-item" href="#s6">06 · Aset jaringan</a>
     <a class="sb-item" href="#s7">07 · Kelistrikan</a>
     <a class="sb-item" href="#s8">08 · Realisasi kinerja</a>
+    <a class="sb-item" href="#s10">10 · Anggaran investasi</a>
   </div>
   <button class="sb-group-btn" id="sbKinerjaBtn"><span class="sb-group" style="padding:0">Kinerja UP3 Masohi 2026</span><span class="sb-caret open" id="sbKinerjaCaret">▾</span></button>
   <div class="sb-sub open" id="sbSubKinerja" style="margin-left:6px;padding-left:4px;border-left:none">
@@ -494,6 +495,40 @@
   </div>
 </section>
 
+<!-- ================= 10 ANGGARAN INVESTASI ================= -->
+<section class="wrap" id="s10">
+  <div class="sec-head"><span class="sec-no">10</span><h2>Anggaran investasi <span class="badge-upd">MONITORING 2026</span></h2></div>
+  <p class="sec-desc">Monitoring anggaran investasi (AI) UP3 Masohi 2026 — gabungan <b>Luncuran 2025</b> (dasar LKAI 2025) dan <b>Murni 2026</b> (rencana AI 2026): pagu, progres kontrak, realisasi pembayaran per fungsi, dan rencana bayar per bulan.</p>
+
+  <div class="grid g4" id="aiCards"></div>
+
+  <div class="grid g2" style="margin-top:14px" id="aiSumber"></div>
+
+  <div class="chart-card">
+    <div class="tbl-head" style="padding:0 0 12px"><h3>Rencana bayar per bulan · jumlah pembayaran</h3></div>
+    <div class="ch sm"><canvas id="chAiBulan"></canvas></div>
+  </div>
+
+  <div class="tbl-wrap">
+    <div class="tbl-head">
+      <h3>Rincian program · <span id="cntAi" class="mono" style="color:var(--faint)"></span></h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <div class="seg" id="segAi">
+          <button class="on" data-f="semua">SEMUA</button>
+          <button data-f="luncuran">LUNCURAN 2025</button>
+          <button data-f="murni">MURNI 2026</button>
+        </div>
+        <input class="search" id="cariAi" placeholder="cari program…">
+      </div>
+    </div>
+    <div class="tbl-scroll"><table id="tblAi">
+      <thead><tr><th>No PRK</th><th>Sumber</th><th>Fungsi</th><th>Uraian program</th><th class="num">Pagu (Rp)</th><th class="num">Kontrak</th><th class="num">Terkontrak (Rp)</th><th class="num">%</th><th class="num">Terbayar (Rp)</th><th class="num">% Byr</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <div class="tbl-note">Baris «No 1–5 · rekap» Luncuran 2025 adalah gabungan lima program yang rinciannya belum dilampirkan — totalnya tetap sesuai rekap resmi. Status: <b>LUNAS</b> = terbayar ≥ 99% terkontrak · <b>BERJALAN</b> = sebagian terbayar · <b>KONTRAK</b> = belum ada pembayaran.</div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap foot">
     <span id="footPos">Profil pengusahaan UP3 Masohi · posisi data Mei 2026</span>
@@ -523,6 +558,7 @@
 
 <script src="js/data.js"></script>
 <script src="js/app.js"></script>
+<script src="js/anggaran.js"></script>
 <script src="js/dashboard.js"></script>
 </body>
 </html>

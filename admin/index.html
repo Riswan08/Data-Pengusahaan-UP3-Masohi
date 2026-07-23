@@ -299,6 +299,7 @@ $('#applyJson').onclick = ()=>{
     if(j.kpiData) replaceArr(kpiData, j.kpiData);
     if(j.mainKPIs) replaceArr(mainKPIs, j.mainKPIs);
     if(j.warnaUlp) replaceObj(warnaUlp, j.warnaUlp);
+    if(j.anggaran && typeof anggaran!=='undefined') replaceObj(anggaran, j.anggaran);
     renderNko();
     msg('JSON diterapkan.', 'ok');
   }catch(err){ msg('JSON tidak valid: ' + err.message, 'err'); }
@@ -320,7 +321,7 @@ function prevErr(t){ upPrev.style.display='block'; upPrev.className='up-preview 
 
 /* --- pembaca data.js: jalankan isi file, ambil semua konstanta yang ada --- */
 function parseDataJsText(text){
-  const keys = ['META','neraca','indukNer','koorNer','sistem','bulan','nko','warnaUlp','ulpData','kpiData','mainKPIs'];
+  const keys = ['META','neraca','indukNer','koorNer','sistem','bulan','nko','warnaUlp','ulpData','kpiData','mainKPIs','anggaran'];
   const tail = '\nreturn {' + keys.map(k=>`${k}: (typeof ${k}!=='undefined') ? ${k} : undefined`).join(',') + '};';
   return new Function('"use strict";' + text + tail)();
 }
@@ -415,7 +416,7 @@ upFile.addEventListener('change', ()=>{
 /* --- terapkan dari data.js / JSON --- */
 function applyFull(obj, mode){
   const bagian = {
-    semua:     ['META','neraca','indukNer','koorNer','sistem','bulan','nko','warnaUlp','ulpData','kpiData','mainKPIs'],
+    semua:     ['META','neraca','indukNer','koorNer','sistem','bulan','nko','warnaUlp','ulpData','kpiData','mainKPIs','anggaran'],
     kinerja:   ['bulan','nko','warnaUlp','ulpData','kpiData','mainKPIs'],
     pelanggan: ['neraca','indukNer','koorNer'],
     sistem:    ['sistem']
@@ -682,6 +683,9 @@ const ulpData = ${JSON.stringify(ulpData, null, 1)};
 const kpiData = ${JSON.stringify(kpiData, null, 1)};
 
 const mainKPIs = ${JSON.stringify(mainKPIs, null, 1)};
+
+/* ================= 10 \u00b7 ANGGARAN INVESTASI ================= */
+const anggaran = ${typeof anggaran!=='undefined' ? JSON.stringify(anggaran, null, 1) : 'undefined'};
 `;
 }
 $('#dlBtn').onclick = ()=>{
