@@ -76,9 +76,7 @@ const charts = {};
 
 /* ================= NERACA ================= */
 const tot = neraca.reduce((a,u)=>({p:a.p+u.p, d:a.d+u.d, k:a.k+u.k}), {p:0,d:0,k:0});
-document.getElementById('vPlg').textContent = idn(tot.p);
-document.getElementById('vDaya').innerHTML = (tot.d/1e6).toFixed(2).replace('.',',')+'<small>MVA</small>';
-document.getElementById('vDayaVa').textContent = idn(tot.d)+' VA';
+/* kartu niaga bab 04 kini statis di index.html (data retail & niaga UP3), tidak lagi dihitung dari neraca */
 
 const wilayah = u => u.t==='ULP' ? u.n : (indukNer[u.n]||'—');
 const agg = {};
