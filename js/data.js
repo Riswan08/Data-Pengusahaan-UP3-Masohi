@@ -9,7 +9,7 @@
 const META = {
   tahun: 2026,
   posisiData: 'Mei 2026',            /* posisi data pengusahaan */
-  monitoringPembangkit: '5 Juli 2026' /* tanggal monitoring beban puncak */
+  monitoringPembangkit: '9 September 2026' /* tanggal monitoring beban puncak */
 };
 
 /* ================= DATA (konsolidasi memori sertijab + dashboard 2026) ================= */
@@ -70,33 +70,33 @@ const koorNer = {
   'KP Kwamor':[-3.864906,130.805400],'KP Kilmury':[-3.686266,130.473436]
 };
 const sistem = [
-  /* posisi monitoring beban puncak malam · 5 Juli 2026 */
-  {n:'PLTMG Masohi–Tehoru', u:'MASOHI', st:'Aman', j:24, dp:20.00, dm:19.00, bp:6.91, cad:12.09, c:[-3.305980,128.946362]},
-  {n:'PLTD Laimu (Feeder Timur)', u:'MASOHI', st:'Aman', j:24, dp:4.84, dm:4.20, bp:1.01, cad:3.19, c:[-3.325335,129.787728]},
+  /* posisi monitoring beban puncak malam · 9 September 2026 */
+  {n:'PLTMG Masohi–Tehoru', u:'MASOHI', st:'Aman', j:24, dp:20.00, dm:20.00, bp:7.36, cad:12.64, c:[-3.305980,128.946362]},
+  {n:'PLTD Laimu (Feeder Timur)', u:'MASOHI', st:'Aman', j:24, dp:4.84, dm:4.17, bp:2.00, cad:2.17, c:[-3.325335,129.787728]},
   {n:'PLTD Pasanea', u:'MASOHI', st:'Aman', j:24, dp:1.73, dm:1.17, bp:0.59, cad:0.58, c:[-2.803147,129.057908]},
-  {n:'PLTD Werinama', u:'MASOHI', st:'Aman', j:24, dp:1.20, dm:0.62, bp:0.17, cad:0.45, c:[-3.458544,129.999793]},
-  {n:'PLTD Olong', u:'KOBISONTA', st:'Aman', j:24, dp:11.30, dm:10.79, bp:5.45, cad:5.34, c:[-2.939396,129.181005]},
-  {n:'PLTD Pasahari', u:'KOBISONTA', st:'Aman', j:24, dp:5.80, dm:6.00, bp:1.92, cad:4.08, c:[-2.837099,129.650526]},
-  {n:'PLTD Kobisonta/Maluku Tengah', u:'KOBISONTA', st:'Aman', j:24, dp:3.49, dm:2.45, bp:1.47, cad:0.98, c:[-2.990339,129.923799]},
-  {n:'PLTD Wahai', u:'KOBISONTA', st:'Aman', j:24, dp:2.71, dm:1.07, bp:0.64, cad:0.43, c:[-2.797337,129.499636]},
-  {n:'PLTD Bula/Seram Bag. Timur', u:'BULA', st:'Aman', j:24, dp:5.48, dm:5.30, bp:3.04, cad:2.26, c:[-3.103378,130.493372]},
-  {n:'PLTD Kiandarat', u:'BULA', st:'Aman', j:24, dp:2.67, dm:1.64, bp:0.62, cad:1.02, c:[-3.661194,130.829964]},
-  {n:'PLTD Ondor', u:'BULA', st:'Aman', j:24, dp:3.80, dm:1.28, bp:0.69, cad:0.59, c:[-3.994761,131.379431]},
-  {n:'PLTD Geser', u:'BULA', st:'Aman', j:24, dp:0.80, dm:0.58, bp:0.18, cad:0.40, c:[-3.879253,130.899872]},
-  {n:'PLTD Kesui', u:'BULA', st:'Aman', j:24, dp:1.42, dm:0.54, bp:0.20, cad:0.34, c:[-4.499550,131.674322]},
+  {n:'PLTD Werinama', u:'MASOHI', st:'Aman', j:24, dp:1.20, dm:0.44, bp:0.17, cad:0.27, c:[-3.458544,129.999793]},
+  {n:'PLTD Olong', u:'KOBISONTA', st:'Aman', j:24, dp:11.30, dm:10.94, bp:6.48, cad:4.46, c:[-2.939396,129.181005]},
+  {n:'PLTD Pasahari', u:'KOBISONTA', st:'Aman', j:24, dp:5.80, dm:6.00, bp:2.64, cad:3.36, c:[-2.837099,129.650526]},
+  {n:'PLTD Kobisonta/Maluku Tengah', u:'KOBISONTA', st:'Aman', j:24, dp:3.49, dm:2.05, bp:1.17, cad:0.88, c:[-2.990339,129.923799]},
+  {n:'PLTD Wahai', u:'KOBISONTA', st:'Aman', j:24, dp:2.71, dm:1.47, bp:0.64, cad:0.83, c:[-2.797337,129.499636]},
+  {n:'PLTD Bula/Seram Bag. Timur', u:'BULA', st:'Aman', j:24, dp:5.48, dm:5.30, bp:3.14, cad:2.16, c:[-3.103378,130.493372]},
+  {n:'PLTD Kiandarat', u:'BULA', st:'Aman', j:24, dp:2.67, dm:1.64, bp:0.63, cad:1.01, c:[-3.661194,130.829964]},
+  {n:'PLTD Ondor', u:'BULA', st:'Aman', j:24, dp:3.80, dm:1.14, bp:0.71, cad:0.43, c:[-3.994761,131.379431]},
+  {n:'PLTD Geser', u:'BULA', st:'Aman', j:24, dp:0.80, dm:0.38, bp:0.18, cad:0.20, c:[-3.879253,130.899872]},
+  {n:'PLTD Kesui', u:'BULA', st:'Aman', j:24, dp:1.45, dm:0.78, bp:0.19, cad:0.58, c:[-4.499550,131.674322]},
   {n:'PLTD Amarsekaru', u:'BULA', st:'Aman', j:24, dp:1.28, dm:0.47, bp:0.16, cad:0.31, c:[-4.084211,131.311231]},
-  {n:'PLTD Kilmury', u:'BULA', st:'Aman', j:12, dp:0.60, dm:0.40, bp:0.05, cad:0.36, c:[-3.686266,130.473436]},
-  {n:'PLTD Teor', u:'BULA', st:'Aman', j:24, dp:0.65, dm:0.31, bp:0.08, cad:0.23, c:[-4.702223,131.729684]},
+  {n:'PLTD Kilmury', u:'BULA', st:'Aman', j:24, dp:0.60, dm:0.40, bp:0.07, cad:0.34, c:[-3.686266,130.473436]},
+  {n:'PLTD Teor', u:'BULA', st:'Aman', j:24, dp:0.65, dm:0.31, bp:0.07, cad:0.23, c:[-4.702223,131.729684]},
   {n:'PLTD P. Panjang', u:'BULA', st:'Aman', j:24, dp:0.49, dm:0.20, bp:0.06, cad:0.14, c:[-4.011089,131.242244]},
-  {n:'PLTD Kwamor', u:'BULA', st:'Aman', j:24, dp:0.27, dm:0.20, bp:0.03, cad:0.17, c:[-3.864906,130.805400]},
-  {n:'PLTD Seram Laut', u:'BULA', st:'Aman', j:24, dp:0.35, dm:0.20, bp:0.07, cad:0.13, c:[-3.870,130.950]},
+  {n:'PLTD Kwamor', u:'BULA', st:'Aman', j:24, dp:0.27, dm:0.20, bp:0.04, cad:0.16, c:[-3.864906,130.805400]},
+  {n:'PLTD Seram Laut', u:'BULA', st:'Aman', j:24, dp:0.35, dm:0.30, bp:0.07, cad:0.23, c:[-3.870,130.950]},
   {n:'PLTD Effa', u:'BULA', st:'Aman', j:24, dp:0.20, dm:0.17, bp:0.04, cad:0.13, c:[-4.402953,131.600453]},
   {n:'PLTD Keffing', u:'BULA', st:'Aman', j:24, dp:0.23, dm:0.14, bp:0.03, cad:0.11, c:[-3.869689,130.859508]},
-  {n:'PLTD Piru', u:'PIRU', st:'Aman', j:24, dp:13.95, dm:6.15, bp:3.52, cad:2.63, c:[-3.065181,128.194817]},
-  {n:'PLTD Luhu', u:'PIRU', st:'Aman', j:24, dp:4.38, dm:2.00, bp:1.31, cad:0.69, c:[-3.383408,127.983233]},
-  {n:'PLTD Taniwel', u:'PIRU', st:'Aman', j:24, dp:4.08, dm:1.73, bp:0.69, cad:1.04, c:[-2.851850,128.476017]},
-  {n:'PLTD Buano', u:'PIRU', st:'Aman', j:24, dp:1.36, dm:0.68, bp:0.25, cad:0.43, c:[-3.010006,127.952125]},
-  {n:'PLTD Kairatu/Seram Bag. Barat', u:'KAIRATU', st:'Aman', j:24, dp:5.06, dm:4.46, bp:3.92, cad:0.54, c:[-3.372600,128.377952]}
+  {n:'PLTD Piru', u:'PIRU', st:'Aman', j:24, dp:13.95, dm:6.30, bp:3.94, cad:2.36, c:[-3.065181,128.194817]},
+  {n:'PLTD Luhu', u:'PIRU', st:'Siaga', j:24, dp:4.38, dm:1.28, bp:1.20, cad:0.08, c:[-3.383408,127.983233]},
+  {n:'PLTD Taniwel', u:'PIRU', st:'Aman', j:24, dp:4.08, dm:1.73, bp:0.75, cad:0.98, c:[-2.851850,128.476017]},
+  {n:'PLTD Buano', u:'PIRU', st:'Aman', j:24, dp:1.36, dm:0.68, bp:0.28, cad:0.40, c:[-3.010006,127.952125]},
+  {n:'PLTD Kairatu/Seram Bag. Barat', u:'KAIRATU', st:'Aman', j:24, dp:5.06, dm:4.50, bp:4.06, cad:0.44, c:[-3.372600,128.377952]}
 ];
 const bulan = ['Jan','Feb','Mar','Apr','Mei','Jun'];
 const nko = {
