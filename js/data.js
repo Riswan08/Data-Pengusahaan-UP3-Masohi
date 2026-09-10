@@ -664,43 +664,50 @@ const anggaran = {
   tahun: 2026,
   luncuran: {
     label: "Luncuran 2025", dasar: "Dasar LKAI 2025",
-    pagu: 11596292294, kontrak: 22, terkontrak: 11338582574, terbayar: 5381162651,
+    /* rekap = jumlah 13 baris program (posisi monitoring September 2026). Catatan: baris total di sheet sumber
+       mengecualikan 2024.WMMU.1.001 (Rp 138.827.147, lunas) dari terkontrak & terbayar (11.337.748.498 / 5.381.162.651). */
+    pagu: 11481623341, kontrak: 22, terkontrak: 11476575645, terbayar: 5519989798,
     fungsi: [
-      {n:"Pemasaran", pagu:4776467566, terkontrak:4700068670, terbayar:736562147},
+      {n:"Pemasaran", pagu:4700068670, terkontrak:4699234594, terbayar:736562147},
       {n:"Keandalan", pagu:5240785153, terkontrak:5237088751, terbayar:3671814541},
-      {n:"Efisiensi", pagu:1579039575, terkontrak:1540252300, terbayar:1111613110}
+      {n:"Efisiensi", pagu:1540769518, terkontrak:1540252300, terbayar:1111613110}
     ],
-    bayarBulan: [0,0,7,3,2,1,0,0,4,1,0,4],
+    bayarBulan: [0,0,7,3,2,1,0,0,7,0,0,2],
     program: [
+      {prk:"2024.WMMU.1.001", f:"Pemasaran", u:"Penyambungan Pelanggan TR", pagu:138827147, kontrak:0, terkontrak:138827147, terbayar:138827147},
+      {prk:"2025.WMMU.1.001", f:"Pemasaran", u:"Penyambungan Pelanggan TR UIW MMU", pagu:4142680783, kontrak:4, terkontrak:4142680783, terbayar:597735000},
+      {prk:"2025.WMMU.1.002", f:"Pemasaran", u:"Penyambungan Pelanggan TM UIW MMU", pagu:418560740, kontrak:4, terkontrak:417726664, terbayar:0},
+      {prk:"2025.WMMU.2.001", f:"Keandalan", u:"Evakuasi Daya GI dan Perluasan JTM UIW MMU", pagu:2051958700, kontrak:2, terkontrak:2051958700, terbayar:1951687844},
+      {prk:"2024.WMMU.4.002", f:"Keandalan", u:"Registrasi Aset Distribusi UIW MMU", pagu:56800329, kontrak:0, terkontrak:56800329, terbayar:56800329},
       {prk:"2024.WMMU.4.006", f:"Keandalan", u:"Perbaikan Sistem Proteksi UIW MMU", pagu:67961713, kontrak:0, terkontrak:67961713, terbayar:67961713},
       {prk:"2025.WMMU.4.003", f:"Keandalan", u:"Digitalisasi Scadatel UIW MMU", pagu:72515000, kontrak:0, terkontrak:72515000, terbayar:72515000},
       {prk:"2025.WMMU.4.004", f:"Keandalan", u:"Rehabilitasi dan/atau Rekonduktoring JTM UIW MMU", pagu:1462285754, kontrak:2, terkontrak:1462285754, terbayar:0},
       {prk:"2025.WMMU.4.005", f:"Keandalan", u:"Pemasangan/Penggantian Komponen Jaringan UIW MMU", pagu:1117899482, kontrak:1, terkontrak:1117899455, terbayar:1117899455},
       {prk:"2025.WMMU.4.006", f:"Keandalan", u:"Aset Register JTR SR APP UIW MMU", pagu:411364175, kontrak:2, terkontrak:407667800, terbayar:404950200},
-      {prk:"2025.WMMU.5.002", f:"Efisiensi", u:"Uprating JTM UIW MMU", pagu:447541753, kontrak:2, terkontrak:409271696, terbayar:8195999},
+      {prk:"2025.WMMU.5.002", f:"Efisiensi", u:"Uprating JTM UIW MMU", pagu:409271696, kontrak:2, terkontrak:409271696, terbayar:8195999},
       {prk:"2025.WMMU.5.004", f:"Efisiensi", u:"Rehabilitasi dan Perluasan JTR UIW MMU", pagu:222159765, kontrak:1, terkontrak:222159765, terbayar:222159765},
-      {prk:"2025.WMMU.5.005", f:"Efisiensi", u:"Peremajaan kWh Meter UIW MMU", pagu:909338057, kontrak:4, terkontrak:908820839, terbayar:881257346},
-      {prk:"No 1–5", f:"Pemasaran & Keandalan", u:"Program lainnya — rekap gabungan (rincian belum dilampirkan)", pagu:6885226595, kontrak:10, terkontrak:6670000552, terbayar:2606223173, rekap:true}
+      {prk:"2025.WMMU.5.005", f:"Efisiensi", u:"Peremajaan kWh Meter UIW MMU", pagu:909338057, kontrak:4, terkontrak:908820839, terbayar:881257346}
     ]
   },
   murni: {
     label: "Murni 2026", dasar: "Rencana AI 2026",
-    pagu: 17383168460, kontrak: 57, terkontrak: 16212891158, terbayar: 2532362987,
+    pagu: 23732724196, kontrak: 65, terkontrak: 21328616132, terbayar: 7316863635,
     fungsi: [
-      {n:"Pemasaran", pagu:7421506009, terkontrak:6503836327, terbayar:2328778030},
-      {n:"Keandalan", pagu:4174747668, terkontrak:3922745878, terbayar:0},
-      {n:"Efisiensi", pagu:5786914783, terkontrak:5786308953, terbayar:203584957}
+      {n:"Pemasaran", pagu:11129792527, terkontrak:9026521391, terbayar:5658214245},
+      {n:"Keandalan", pagu:6333491948, terkontrak:6333463530, terbayar:766420747},
+      {n:"Efisiensi", pagu:6269439721, terkontrak:5968631211, terbayar:892228643}
     ],
-    bayarBulan: [0,0,0,0,8,4,1,22,2,2,3,15],
+    bayarBulan: [0,0,0,0,8,4,0,21,7,5,11,13],
     program: [
-      {prk:"2026.WMMU.1.001", f:"Pemasaran", u:"Penyambungan Pelanggan TR", pagu:6046958856, kontrak:27, terkontrak:5229325146, terbayar:1586729054},
-      {prk:"2026.WMMU.1.002", f:"Pemasaran", u:"Penyambungan Pelanggan TM", pagu:1374547153, kontrak:3, terkontrak:1274511181, terbayar:742048976},
-      {prk:"2026.WMMU.4.003", f:"Keandalan", u:"Peningkatan Keandalan Jaringan — Kubikel", pagu:740239885, kontrak:3, terkontrak:489121500, terbayar:0},
-      {prk:"2026.WMMU.4.004", f:"Keandalan", u:"Peningkatan Keandalan Jaringan — Rehab Penyulang", pagu:1443772167, kontrak:2, terkontrak:1443486341, terbayar:0},
-      {prk:"2026.WMMU.4.005", f:"Keandalan", u:"Peningkatan Keandalan Jaringan — Otomatisasi JTM", pagu:1990735616, kontrak:6, terkontrak:1990138037, terbayar:0},
-      {prk:"2026.WMMU.5.002", f:"Efisiensi", u:"Rehab & Perluasan JTR", pagu:965535512, kontrak:3, terkontrak:965191722, terbayar:0},
+      {prk:"2026.WMMU.1.001", f:"Pemasaran", u:"Penyambungan Pelanggan TR", pagu:9755245374, kontrak:34, terkontrak:7752010210, terbayar:4383703064},
+      {prk:"2026.WMMU.1.002", f:"Pemasaran", u:"Penyambungan Pelanggan TM", pagu:1374547153, kontrak:3, terkontrak:1274511181, terbayar:1274511181},
+      {prk:"2026.WMMU.4.003", f:"Keandalan", u:"Otomatisasi JTM UIW MMU", pagu:1034141341, kontrak:4, terkontrak:1034112923, terbayar:373959000},
+      {prk:"2026.WMMU.4.004", f:"Keandalan", u:"Peningkatan Keandalan Jaringan — Rehab Penyulang", pagu:1696610475, kontrak:2, terkontrak:1696610475, terbayar:392461747},
+      {prk:"2026.WMMU.4.005", f:"Keandalan", u:"Rehabilitasi dan/atau Rekonduktoring JTM UIW MMU", pagu:3602740132, kontrak:6, terkontrak:3602740132, terbayar:0},
+      {prk:"2026.WMMU.5.001", f:"Efisiensi", u:"Manajemen Trafo UIW MMU 2026", pagu:182524938, kontrak:0, terkontrak:182322258, terbayar:0},
+      {prk:"2026.WMMU.5.002", f:"Efisiensi", u:"Rehab & Perluasan JTR", pagu:1265535512, kontrak:3, terkontrak:965191722, terbayar:0},
       {prk:"2026.WMMU.5.003", f:"Efisiensi", u:"Uprating JTM", pagu:1816883402, kontrak:5, terkontrak:1816745409, terbayar:0},
-      {prk:"2026.WMMU.5.004", f:"Efisiensi", u:"Pemeliharaan SR APP & Pengadaan Alat Ukur", pagu:3004495869, kontrak:8, terkontrak:3004371822, terbayar:203584957}
+      {prk:"2026.WMMU.5.004", f:"Efisiensi", u:"Pemeliharaan SR APP & Pengadaan Alat Ukur", pagu:3004495869, kontrak:8, terkontrak:3004371822, terbayar:892228643}
     ]
   }
 };
