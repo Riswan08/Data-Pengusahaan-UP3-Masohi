@@ -258,7 +258,7 @@ const mei = Object.entries(nko).map(([k,v])=>({n:k,jan:v.d[0],mei:v.d[v.d.length
 charts.nkoBar = new Chart(document.getElementById('chNkoBar'), {
   type:'bar',
   data:{labels:mei.map(m=>m.n.replace('ULP ','')),
-    datasets:[{label:'NKO Mei',data:mei.map(m=>m.mei),backgroundColor:mei.map(m=>m.c),borderRadius:6}]},
+    datasets:[{label:'NKO '+bulan[bulan.length-1],data:mei.map(m=>m.mei),backgroundColor:mei.map(m=>m.c),borderRadius:6}]},
   options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:90,max:112}}}
 });
 
