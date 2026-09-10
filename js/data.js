@@ -9,7 +9,16 @@
 const META = {
   tahun: 2026,
   posisiData: 'Mei 2026',            /* posisi data pengusahaan */
-  monitoringPembangkit: '9 September 2026' /* tanggal monitoring beban puncak */
+  monitoringPembangkit: '9 September 2026', /* tanggal monitoring beban puncak */
+  /* data retail & niaga UP3 (total unit) — dipakai kartu bab 04, kartu bab 05, dan node pelanggan di hero */
+  niaga: {
+    posisi: '',                 /* isi mis. 'Agustus 2026' bila diketahui */
+    pelanggan: 135846, prabayar: 98261, pascabayar: 37585,
+    dayaVA: 161572050,
+    penjualanKwh: 21061618, pendapatanRp: 166021861842, bppRpKwh: 4504,
+    tr: 135839, tm: 7, tt: 0,
+    pendapatanBPRpM: 9.51, pendapatanBPCapaian: '100,4% (s.d. Agustus)'
+  }
 };
 
 /* ================= DATA (konsolidasi memori sertijab + dashboard 2026) ================= */

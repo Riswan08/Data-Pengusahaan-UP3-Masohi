@@ -76,7 +76,28 @@ const charts = {};
 
 /* ================= NERACA ================= */
 const tot = neraca.reduce((a,u)=>({p:a.p+u.p, d:a.d+u.d, k:a.k+u.k}), {p:0,d:0,k:0});
-/* kartu niaga bab 04 kini statis di index.html (data retail & niaga UP3), tidak lagi dihitung dari neraca */
+
+/* ---- data retail & niaga UP3 (META.niaga): kartu bab 04, kartu bab 05, node pelanggan hero ---- */
+const NG = (typeof META!=='undefined' && META.niaga) ? META.niaga : null;
+const setT = (id, v) => { const e = document.getElementById(id); if(e) e.textContent = v; };
+const setH = (id, v) => { const e = document.getElementById(id); if(e) e.innerHTML = v; };
+if(NG){
+  const mva = (NG.dayaVA/1e6).toFixed(2).replace('.',',');
+  const gwh = (NG.penjualanKwh/1e6).toFixed(2).replace('.',',');
+  const rpM = (NG.pendapatanRp/1e9).toFixed(2).replace('.',',');
+  const pra = (NG.prabayar/NG.pelanggan*100).toFixed(1).replace('.',',');
+  const pos = NG.posisi ? ' · posisi '+NG.posisi : '';
+  setT('nPlg', idn(NG.pelanggan)); setT('nPlgSub', 'prabayar '+idn(NG.prabayar)+' · pascabayar '+idn(NG.pascabayar));
+  setH('nDaya', mva+'<small>MVA</small>'); setT('nDayaSub', idn(NG.dayaVA)+' VA'+pos);
+  setH('nJual', gwh+'<small>GWh</small>'); setT('nJualSub', idn(NG.penjualanKwh)+' kWh'+pos);
+  setH('nPend', 'Rp '+rpM+'<small>M</small>'); setT('nPendSub', 'Rp '+idn(NG.pendapatanRp));
+  setT('nTR', idn(NG.tr)); setT('nTRSub', 'TM '+idn(NG.tm)+' · TT '+idn(NG.tt));
+  setH('nPra', pra+'<small>%</small>'); setT('nPraSub', idn(NG.prabayar)+' dari '+idn(NG.pelanggan)+' pelanggan');
+  setH('nBpp', 'Rp '+idn(NG.bppRpKwh)+'<small>/kWh</small>');
+  setH('nBP', 'Rp '+String(NG.pendapatanBPRpM).replace('.',',')+'<small>M</small>'); setT('nBPSub', 'capaian '+NG.pendapatanBPCapaian);
+  setT('sldPlg', idn(NG.pelanggan)+' plg · '+mva+' MVA'); setT('sldJual', 'jual '+gwh+' GWh · Rp '+rpM+' M');
+  document.querySelectorAll('.niaga-ringkas').forEach(e=>e.textContent = idn(NG.pelanggan)+' pelanggan · '+idn(NG.dayaVA)+' VA · '+idn(NG.penjualanKwh)+' kWh');
+}
 
 const wilayah = u => u.t==='ULP' ? u.n : (indukNer[u.n]||'—');
 const agg = {};
@@ -88,11 +109,16 @@ neraca.forEach(u=>{
 const ulpOrder = ['ULP Masohi','ULP Kairatu','ULP Piru','ULP Kobisonta','ULP Bula'];
 const terbesar = ulpOrder.reduce((a,b)=>agg[a].p>=agg[b].p?a:b);
 
+/* kartu ringkasan: total UP3 dari META.niaga bila ada, jika tidak dihitung dari rincian 31 unit */
+const nerP = NG ? NG.pelanggan : tot.p, nerD = NG ? NG.dayaVA : tot.d, nerK = NG ? NG.penjualanKwh : tot.k;
+const nerSubP = NG ? 'prabayar '+idn(NG.prabayar)+' · pascabayar '+idn(NG.pascabayar) : '31 unit (5 ULP + 26 KP)';
+const nerLblK = NG ? 'Penjualan tenaga listrik' : 'Penjualan bulanan (Mei)';
+const nerSubK = NG ? idn(nerK)+' kWh · Rp '+(NG.pendapatanRp/1e9).toFixed(2).replace('.',',')+' M' : idn(nerK)+' kWh';
 document.getElementById('neracaCards').innerHTML = `
-  <div class="card blue"><div class="lbl">Total pelanggan</div><div class="val">${idn(tot.p)}</div><div class="sub">31 unit (5 ULP + 26 KP)</div></div>
-  <div class="card blue"><div class="lbl">Daya tersambung</div><div class="val">${(tot.d/1e6).toFixed(2).replace('.',',')}<small>MVA</small></div><div class="sub">${idn(tot.d)} VA</div></div>
-  <div class="card blue"><div class="lbl">Penjualan bulanan (Mei)</div><div class="val">${(tot.k/1e6).toFixed(2).replace('.',',')}<small>GWh</small></div><div class="sub">${idn(tot.k)} kWh</div></div>
-  <div class="card green"><div class="lbl">Wilayah pelanggan terbesar</div><div class="val" style="font-size:22px">${terbesar}</div><span class="delta d-up">${idn(agg[terbesar].p)} pelanggan (induk + KP)</span></div>`;
+  <div class="card blue"><div class="lbl">Total pelanggan UP3</div><div class="val">${idn(nerP)}</div><div class="sub">${nerSubP}</div></div>
+  <div class="card blue"><div class="lbl">Daya tersambung</div><div class="val">${(nerD/1e6).toFixed(2).replace('.',',')}<small>MVA</small></div><div class="sub">${idn(nerD)} VA</div></div>
+  <div class="card blue"><div class="lbl">${nerLblK}</div><div class="val">${(nerK/1e6).toFixed(2).replace('.',',')}<small>GWh</small></div><div class="sub">${nerSubK}</div></div>
+  <div class="card green"><div class="lbl">Wilayah pelanggan terbesar</div><div class="val" style="font-size:22px">${terbesar}</div><span class="delta d-up">${idn(agg[terbesar].p)} pelanggan (induk + KP · Mei)</span></div>`;
 
 const tbNer = document.querySelector('#tblNer tbody');
 const cntNer = document.getElementById('cntNer');

@@ -168,8 +168,8 @@
       <circle cx="1108" cy="104" r="6.5" fill="none" stroke="#1E8E5A" stroke-width="3.4"/>
       <path d="M1108,110 v7" stroke="#1E8E5A" stroke-width="3.4" stroke-linecap="round"/>
       <text x="1088" y="160" text-anchor="middle" class="lt">PELANGGAN</text>
-      <text x="1088" y="180" text-anchor="middle" class="lv">135.846 plg · 161,57 MVA</text>
-      <text x="1088" y="198" text-anchor="middle" class="ls">jual 21,06 GWh · Rp 166,02 M</text>
+      <text x="1088" y="180" text-anchor="middle" class="lv" id="sldPlg">135.846 plg · 161,57 MVA</text>
+      <text x="1088" y="198" text-anchor="middle" class="ls" id="sldJual">jual 21,06 GWh · Rp 166,02 M</text>
     </svg>
   </div>
 </header>
@@ -290,16 +290,16 @@
 
   <h3 class="blok">Niaga &amp; pelanggan</h3>
   <div class="grid g4">
-    <div class="card blue"><div class="lbl">Jumlah pelanggan</div><div class="val">135.846</div><div class="sub">prabayar 98.261 · pascabayar 37.585</div></div>
-    <div class="card blue"><div class="lbl">Daya tersambung</div><div class="val">161,57<small>MVA</small></div><div class="sub">161.572.050 VA</div></div>
-    <div class="card blue"><div class="lbl">Penjualan tenaga listrik</div><div class="val">21,06<small>GWh</small></div><div class="sub">21.061.618 kWh</div></div>
-    <div class="card blue"><div class="lbl">Pendapatan penjualan</div><div class="val">Rp 166,02<small>M</small></div><div class="sub">Rp 166.021.861.842</div></div>
+    <div class="card blue"><div class="lbl">Jumlah pelanggan</div><div class="val" id="nPlg">—</div><div class="sub" id="nPlgSub">—</div></div>
+    <div class="card blue"><div class="lbl">Daya tersambung</div><div class="val" id="nDaya">—</div><div class="sub" id="nDayaSub">—</div></div>
+    <div class="card blue"><div class="lbl">Penjualan tenaga listrik</div><div class="val" id="nJual">—</div><div class="sub" id="nJualSub">—</div></div>
+    <div class="card blue"><div class="lbl">Pendapatan penjualan</div><div class="val" id="nPend">—</div><div class="sub" id="nPendSub">—</div></div>
   </div>
   <div class="grid g4" style="margin-top:14px">
-    <div class="card"><div class="lbl">Pelanggan TR</div><div class="val">135.839</div><div class="sub">TM 7 · TT 0</div></div>
-    <div class="card"><div class="lbl">Rasio prabayar</div><div class="val">72,3<small>%</small></div><div class="sub">98.261 dari 135.846 pelanggan</div></div>
-    <div class="card"><div class="lbl">BPP</div><div class="val">Rp 4.504<small>/kWh</small></div><div class="sub">biaya pokok penyediaan</div></div>
-    <div class="card"><div class="lbl">Pendapatan BP</div><div class="val">Rp 9,51<small>M</small></div><span class="delta d-up">capaian 100,4% (s.d. Agustus)</span></div>
+    <div class="card"><div class="lbl">Pelanggan TR</div><div class="val" id="nTR">—</div><div class="sub" id="nTRSub">—</div></div>
+    <div class="card"><div class="lbl">Rasio prabayar</div><div class="val" id="nPra">—</div><div class="sub" id="nPraSub">—</div></div>
+    <div class="card"><div class="lbl">BPP</div><div class="val" id="nBpp">—</div><div class="sub">biaya pokok penyediaan</div></div>
+    <div class="card"><div class="lbl">Pendapatan BP</div><div class="val" id="nBP">—</div><span class="delta d-up" id="nBPSub">—</span></div>
   </div>
 
   <h3 class="blok">Jaringan distribusi</h3>
@@ -322,7 +322,7 @@
 <!-- ================= 05 NERACA ================= -->
 <section class="wrap" id="s5">
   <div class="sec-head"><span class="sec-no">05</span><h2>Neraca pelanggan &amp; penjualan</h2></div>
-  <p class="sec-desc">Sebaran pelanggan, daya tersambung, dan penjualan bulanan (Mei) per ULP induk dan kantor pelayanan. Total dihitung otomatis dari rincian 31 unit; agregat per wilayah ULP mengikuti pemetaan induk masing-masing KP.</p>
+  <p class="sec-desc">Kartu ringkasan menampilkan total UP3 dari data retail &amp; niaga terbaru. Rincian per ULP induk dan kantor pelayanan (grafik dan tabel di bawah) masih posisi Mei 2026, sehingga jumlah tabel 31 unit berbeda dari total UP3 terbaru; agregat per wilayah ULP mengikuti pemetaan induk masing-masing KP.</p>
 
   <div class="grid g4" id="neracaCards"></div>
 
@@ -347,7 +347,7 @@
       <thead><tr><th>Unit</th><th>Jenis</th><th>Wilayah ULP</th><th class="num">Pelanggan</th><th class="num">Daya (VA)</th><th class="num">Penjualan (kWh)</th></tr></thead>
       <tbody></tbody>
     </table></div>
-    <div class="tbl-note">Penjualan pada tabel adalah realisasi bulanan posisi Mei 2026; kWh penjualan kumulatif Jan–Mei UP3 sebesar 26,87 GWh.</div>
+    <div class="tbl-note">Rincian per unit adalah posisi Mei 2026 (penjualan = realisasi bulanan Mei). Total UP3 terbaru pada kartu ringkasan: <span class="niaga-ringkas">—</span>.</div>
   </div>
 </section>
 
