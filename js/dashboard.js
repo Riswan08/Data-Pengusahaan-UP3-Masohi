@@ -128,7 +128,7 @@ function renderUnit9(){
   ds.push({label:'Target 110',data:bulan.map(()=>110),borderColor:'rgba(196,63,55,.7)',borderDash:[7,5],borderWidth:1.4,pointRadius:0});
   charts.u9Nko = new Chart(document.getElementById('chU9Nko'),{type:'line',
     data:{labels:bulan,datasets:ds},
-    options:{maintainAspectRatio:false,plugins:{legend:{position:'top',align:'end',labels:{boxWidth:10,boxHeight:10}}},scales:{y:{min:80,max:115}}}});
+    options:{maintainAspectRatio:false,plugins:{legend:{position:'top',align:'end',labels:{boxWidth:10,boxHeight:10}}},scales:{y:{min:70,max:115}}}});
   document.getElementById('u9TrenTitle').textContent = unit9==='up3' ? 'Tren NKO UP3 Masohi' : 'Tren NKO ' + u.label + ' vs UP3';
 
   if(charts.u9Bobot) charts.u9Bobot.destroy();

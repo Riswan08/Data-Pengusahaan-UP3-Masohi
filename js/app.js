@@ -239,7 +239,7 @@ charts.nko = new Chart(document.getElementById('chNko'), {
   type:'line', data:{labels:bulan,datasets:[...dsNko,refT]},
   options:{maintainAspectRatio:false,
     plugins:{legend:{position:'top',align:'end',labels:{boxWidth:10,boxHeight:10,padding:12}}},
-    scales:{y:{min:80,max:115}}}
+    scales:{y:{min:70,max:115}}}
 });
 document.getElementById('segNko').addEventListener('click', e=>{
   if(e.target.tagName!=='BUTTON') return;
