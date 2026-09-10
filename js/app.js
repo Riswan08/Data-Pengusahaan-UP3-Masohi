@@ -155,7 +155,7 @@ function renderSis(){
     const load = s.bp/s.dm*100;
     const lp = load>=90?'p-bad':load>=75?'p-warn':'p-ok';
     return `<tr><td>${s.n}<div style="font-size:11px;color:var(--faint)">ULP ${s.u}</div></td>
-      <td><span class="pill ${s.st==='Aman'?'p-ok':'p-bad'}">${s.st.toUpperCase()}</span></td>
+      <td><span class="pill ${s.st==='Aman'?'p-ok':s.st==='Siaga'?'p-warn':'p-bad'}">${s.st.toUpperCase()}</span></td>
       <td class="num">${s.j} jam</td>
       <td class="num">${f2(s.dp)}</td><td class="num">${f2(s.dm)}</td>
       <td class="num">${f2(s.bp)}</td><td class="num">${f2(s.cad)}</td>
